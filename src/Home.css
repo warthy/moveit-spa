@@ -1,0 +1,83 @@
+
+button{
+    
+    color: white;
+    text-decoration:none;
+   
+    width:500px;
+    height:40px;
+   
+
+}
+#button1{
+    border:1px solid rgb(173, 26, 41);
+    background-color:rgb(173, 26, 41);
+    display:block;
+    margin:auto;
+    
+}
+
+#button2{
+  
+    border:2px solid black;  
+    display:block;
+    margin:auto;
+    margin-top:30px;
+    opacity:0.7;
+    color:black;
+
+   
+}
+a{
+    font-size:20px;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+    text-decoration: none;
+}
+
+#firstButton{
+    display: block;
+    margin:auto;
+    display:flex;
+    flex-direction:column
+}
+
+#alreadyAccount{
+    font-size:18px;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+}
+
+p{
+    font-size:18px;
+    text-align:center;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+    color: black;
+}
+
+.Home{
+    background-image: url("https://www.harlandale.net//cms/lib/TX50000583/Centricity/Domain/10/calendarplanning-cropped.jpg");
+    opacity:0.7;
+    background-size: cover;
+    position:absolute;
+    top: 0; left: 0;
+    height:100%;
+    width:100%;
+    
+}
+
+img{
+    width:600px;
+    height:340px;
+
+
+
+}
+
+#logo{
+    
+  
+    text-align: center;
+    margin-top:10%;
+    margin-bottom:10%;
+
+ 
+}

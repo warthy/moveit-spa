@@ -1,0 +1,134 @@
+.Inscription {
+    background-color: rgb(173, 26, 41);
+    height:100%;
+    width: 100%;
+    position:absolute;
+    top: 0; left: 0;
+  
+    
+}
+
+form{
+    background-color:rgb(248, 232, 233);
+    border:1px solid black;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius:10px;
+
+
+  
+
+}
+
+label{
+    color:black;
+}
+
+.firstPart{
+    display:flex;
+}
+
+.firstInfo, .secondInfo{
+    display:flex;
+    flex-direction:column;
+}
+
+.firstInfo label, .secondInfo label{
+    text-align: right;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+    font-weight: bold;
+    
+}
+
+#sex{
+    width: 180px;
+    margin-left: 30px;
+    height:30px;
+    margin-top:30px;
+}
+
+select{
+    display: inline-block;
+    width: 180px;
+    margin-left: 30px;
+    height:30px;
+}
+
+.firstInfo input, .secondInfo input {
+    display: inline-block;
+    margin-top:30px;
+    margin-left: 30px;
+    height:25px;
+    width:170px;
+  
+}
+
+.firstInfo{
+    margin-left:5%;
+    margin-top: 40px;
+}
+
+.secondInfo{
+    margin-left:30%;
+    margin-top: 40px;
+}
+
+h1{
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+    color: white;
+    margin-top:5%;
+
+}
+
+h2{
+    text-decoration: underline;
+}
+
+.secondPart{
+    display: flex;
+}
+
+.label, .input{
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    font-weight: bold;
+    display: flex;
+    justify-content:space-around;
+    height:25px;
+}
+
+#champDescription{
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    font-weight: bold;
+
+    margin-top: 2%;
+    display: flex;
+    justify-content:center;
+
+}
+#submit{
+    border:1px solid black;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    font-weight: bold;
+    color:black;
+    border-radius: 15px;
+    background-color: white;
+    width: 200px;
+    margin-top: 2%;
+    
+
+}
+
+a{
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    color:black;
+    font-size: 10px;
+}
+
+#fleche{
+    width:60px;
+    height:80px;
+    float:left;
+}
+
+
+

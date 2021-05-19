@@ -1,0 +1,78 @@
+.Connexion {
+    background-color: rgb(173, 26, 41);
+    height:100%;
+    width: 100%;
+    position:absolute;
+    top: 0; left: 0;
+  
+    
+}
+
+form{
+    background-color:rgb(248, 232, 233);
+    border:1px solid black;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius:10px;
+
+
+  
+
+}
+
+label{
+    color:black;
+}
+
+input{
+    display: inline-block;
+    margin-top:30px;
+    margin-left: 30px;
+    height:35px;
+    width:500px;
+}
+label{
+    text-align: center;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
+    font-weight: bold;
+}
+
+#formConnexion{
+    display:flex;
+    flex-direction:column;
+}
+
+
+
+
+
+#cadenas{
+    width: 50px;
+    height: 50px;
+}
+
+#user{
+    width: 50px;
+    height: 50px;
+   
+}
+
+button{
+    width:500px;
+    border:1px solid black;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    font-weight: bold;
+    color:black;
+    border-radius: 15px;
+    background-color: white;
+
+    margin-top: 2%;
+}
+
+a{
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    color:black;
+    font-size: 10px;
+    margin-bottom: 400px;
+}
+
