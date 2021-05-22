@@ -1,0 +1,43 @@
+.Profil {
+    background-color: rgb(173, 26, 41);
+    height:100%;
+    width: 100%;
+    position:absolute;
+    top: 0; left: 0;
+  
+    
+}
+
+#firstInfoProfil{
+    display:flex;
+    justify-content:space-between;
+    margin-left : 50px;
+    margin-right : 50px;
+}
+
+#nomPhoto{
+    display:flex;
+}
+
+#ageMailLieu{
+    display:flex;
+    flex-direction:column;
+}
+
+#photoProfil{
+    width:100px;
+    height: 100px;
+}
+
+.infoPersonn{
+    
+    text-decoration: none;
+    color:white;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+
+}
+#secondInfoProfil{
+    display:flex;
+    flex-direction:column;
+    color:white;
+}

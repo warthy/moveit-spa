@@ -2,12 +2,18 @@ import React from 'react'
 import './Connexion.css'
 import cadenas from'./cadenas.png'
 import user from'./user.png'
-
+import fleche from './fleche.png'
+import {Link} from 'react-router-dom'
 
 function Connexion(){
 
     return(
         <div className="Connexion">
+
+            <Link to="/">
+                <img id="fleche2" src={fleche} />
+
+            </Link>
         <h1>Connexion</h1>
 
         <form >
@@ -37,8 +43,8 @@ function Connexion(){
         
         </div>
         <button>Se connecter</button>
-        <div>
-        <a href="#">Mot de passe oublié ?</a>
+        <div >
+        <a  id="mdp" href="#">Mot de passe oublié ?</a>
         </div>
 
        

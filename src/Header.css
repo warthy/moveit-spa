@@ -1,0 +1,43 @@
+
+nav 
+{
+    margin:  auto;
+    width: 100%;
+    height: 100px;
+    background: #000000;
+}
+ 
+nav .main_pages 
+{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+ 
+nav .main_pages .btn-header 
+{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    text-decoration: none;
+    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
+    color: white;
+}
+ 
+nav .btn-header:hover 
+{
+    background: grey;
+    color: white;
+}
+
+.btn-header{
+    font-size:15px;
+
+}
+
+#mini-logo{
+    width:70px;
+    height:70px;
+}

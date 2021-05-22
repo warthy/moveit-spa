@@ -23,7 +23,7 @@ function Home(){
             </Link>
 
             <Link to="/inscription">
-                <button id="button2"><a>S'inscrire sur facebook </a></button>
+                <button id="button2"><a id="accountFb">S'inscrire sur facebook </a></button>
 
       
             </Link>
@@ -31,6 +31,8 @@ function Home(){
             <Link to="/connexion">
                  <p>Déjà un compte ? <a id="alreadyAccount">Connectez-vous</a></p>
             </Link>
+
+            
 
 
 

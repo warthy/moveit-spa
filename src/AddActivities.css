@@ -1,0 +1,50 @@
+.AddActivities {
+    background-color: rgb(173, 26, 41);
+    height:100%;
+    width: 100%;
+    position:absolute;
+    top: 0; left: 0;
+  
+    
+}
+
+form{
+    background-color:rgb(248, 232, 233);
+    border:1px solid black;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius:10px;
+
+}
+
+.champ{
+    display: flex;
+    justify-content:space-around;
+}
+input{
+    width:400px
+}
+
+#otherParticipant{
+   
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-around;
+  
+
+}
+
+#champDescription2{
+  
+    margin-top:2%;
+}
+
+#description{
+    margin-right: 850px;
+}
+
+#description2{
+    width:100px;
+    text-align:center;
+    margin-left:100px;
+}

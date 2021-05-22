@@ -65,14 +65,21 @@ button{
     color:black;
     border-radius: 15px;
     background-color: white;
+    margin-bottom: 30px;
 
-    margin-top: 2%;
+    margin-top: 5%;
 }
 
-a{
+#mdp{
     font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
     color:black;
     font-size: 10px;
-    margin-bottom: 400px;
+    
+}
+
+#fleche2{
+    width:60px;
+    height:80px;
+    float:left;
 }
 
