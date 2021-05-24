@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import './Inscription.css'
 import sexes from './Genre'
 import sports from './Sport'
@@ -6,49 +6,162 @@ import arts from './Art'
 import others from './Other'
 import fleche from './fleche.png'
 import {Link} from 'react-router-dom'
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+import { isEmail } from "validator";
+
+import AuthService from "./service/auth.service";
+
+const required = value =>{
+    if (!value){
+        return (
+            <div className="alert alert-danger" role="alert">
+              This field is required!
+            </div>
+          );
+        }
+      };
+
+      const email = value => {
+        if (!isEmail(value)) {
+          return (
+            <div className="alert alert-danger" role="alert">
+              This is not a valid email.
+            </div>
+          );
+        }
+      };
+      
+      const vusername = value => {
+        if (value.length < 3 || value.length > 20) {
+          return (
+            <div className="alert alert-danger" role="alert">
+              The username must be between 3 and 20 characters.
+            </div>
+          );
+        }
+      };
+      
+      const vpassword = value => {
+        if (value.length < 6 || value.length > 40) {
+          return (
+            <div className="alert alert-danger" role="alert">
+              The password must be between 6 and 40 characters.
+            </div>
+          );
+        }
+      };
 
 
-function Inscription(){
+export default class Inscription extends Component {
 
-    const [lastname,setLastname] =React.useState("");
-    const[sex, setSex] =React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [firstname, setFirstname] = React.useState("");
-    const [year, setYear] = React.useState("");
-    const [sport, setSport] = React.useState("");
-    const [art, setArt] = React.useState("");
-    const [other, setOther] = React.useState("");
-    
+    constructor(props) {
+        super(props);
+            this.handleRegister=this.handleRegister.bind(this);
+            this.onChangeUsername=this.onChangeUsername.bind(this);
+            this.onChangeLastname=this.onChangeLastname.bind(this);
+            this.onChangeFirstname=this.onChangeFirstname.bind(this);
+            this.onChangeEmail = this.onChangeEmail.bind(this);
+            this.onChangePassword = this.onChangePassword.bind(this);
 
-    const handleSubmit=(event)=>{
-
-        if(document.getElementById("password").value==document.getElementById("passswordConfirm").value){
-            if(document.getElementById("email").value==document.getElementById("mailConfirm").value){
-        console.log(`
-        Lastname: ${lastname}
-        Sex: ${sex}
-       
-        Email: ${email}
-        Password: ${password}
-        FirstName: ${firstname}
-        Year: ${year}
-        Sport:${sport}
-        Art:${art}
-        Other:${other}
-        
-        `);
-
-            }else{
-                document.getElementById("error-message-mail").innerHTML += 'les deux emails ne correpsondent pas'
-            }
-        }else{
-            document.getElementById("error-message-password").innerHTML += 'les deux mots de passe ne correpsondent pas'
+            this.state={
+                username:"",
+                lastName:"",
+                firstName:"",
+                email:"",
+                password:"",
+                successful:false,
+                message:""
+            };
         }
 
-        event.preventDefault();
-    }
+        onChangeUsername(e) {
+            this.setState({
+              username: e.target.value
+            });
+          }
 
+          onChangeLastname(e){
+              this.setState({
+                  lastName: e.target.value
+              });
+          }
+
+          onChangeFirstname(e){
+              this.setState({
+                  firstName: e.target.value
+              });
+          }
+        
+          onChangeEmail(e) {
+            this.setState({
+              email: e.target.value
+            });
+          }
+        
+          onChangePassword(e) {
+            this.setState({
+              password: e.target.value
+            });
+          }
+
+          handleRegister(e){
+
+          
+            
+           
+              e.preventDefault();
+
+              this.setState({
+                  message:"",
+                  successful:false
+              });
+
+              this.form.validateAll();
+              console.log(this.form.validateAll());
+
+              if(this.checkBtn.context._errors.length===0){
+                  AuthService.register(
+                      this.state.username, 
+                      this.state.lastName,
+                      this.state.firstName,
+                      this.state.email,
+                      this.state.password
+                  ).then(
+                      response => {
+                          this.setState({
+                              message: response.data.message,
+                              successful:true
+                          });
+                      },
+                      error => {
+                          const resMessage=
+                          (error.response &&
+                            error.response.data &&
+                            error.response.data.message) || 
+                            error.message || 
+                            error.toString();
+
+                            this.setState({
+                                successful:false,
+                                message:resMessage
+                            });
+                      }
+                  );
+              }
+          }
+        
+
+
+    
+
+  
+    
+
+
+
+    render(){
     return(
         <div className="Inscription">
               <Link to="/">
@@ -57,177 +170,119 @@ function Inscription(){
             </Link>
         <h1>Inscrivez-vous</h1>
 
-        <form onSubmit={handleSubmit}>
+        <Form 
+        onSubmit={this.handleRegister}
+        ref={c=>{
+            this.form=c;
+        }}
+        
+        >
 
-            <div className="firstPart">
+           {!this.state.successful && (
+               <div>
+                   <div>
+                       <label htmlFor="username">Username</label>
+                       <Input
+                       type="text"
+                       name="username"
+                       value={this.state.username}
+                       onChange={this.onChangeUsername}
+                       validations={[required]}
 
-                <div className="firstInfo">
-                    <label for="lastname">Nom
-                    <input 
-                    type="text" 
-                    name="lastname" 
-                    id="lastname"
-                    value={lastname}
-                    onChange={e=> setLastname(e.target.value)
-                    } required></input></label>
+                       />
+                   </div>
 
-                    <label for="sex">Sexe
-                    <select
+                   <div >
+                  <label htmlFor="lastname">Lastname</label>
+                  <Input
+                    type="text"
+                  
+                    name="lastname"
+                    value={this.state.lastName}
+                    onChange={this.onChangeLastname}
+                    validations={[required]}
+                  />
+                </div>
+
+                <div >
+                  <label htmlFor="firstname">Firstname</label>
+                  <Input
+                    type="text"
                     
-                    name="sex" 
-                    id="sex"
-                    value={sex}
-                    onChange={e=> setSex(e.target.value)}
-                    required>
-                        <option key=""></option>
+                    name="firstname"
+                    value={this.state.firstName}
+                    onChange={this.onChangeFirstname}
+                    validations={[required]}
+                  />
+                </div>
 
-                        {sexes.map(sex=>(
-                            <option key={sex}>{sex}
-                            </option>                        
-                            ))}
-                        </select></label>
-
-                    <label for="email">Mail
-                    <input 
-                    type="text" 
+                   <div >
+                  <label htmlFor="email">Email</label>
+                  <Input
+                    type="text"
+                    className="form-control"
                     name="email"
-                    id="email"
-                    value={email}
-                    onChange={e=> setEmail(e.target.value)
-                    }required></input></label>
-                    
+                    value={this.state.email}
+                    onChange={this.onChangeEmail}
+                    validations={[required, email]}
+                  />
+                </div>
 
+                <div className="form-group">
+                  <label htmlFor="password">Password</label>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.onChangePassword}
+                    validations={[required, vpassword]}
+                  />
+                </div>
+
+                <div>
+                    <button>S'inscrire</button>
+                </div>
+
+
+               </div>
+           )}
+
+           {this.state.message && (
+               <div>
+
+                    <div className={this.state.successful
+                    ?"alert alert-success"
+                : "alert alert-danger"
             
+            }
+            role="alert"
+                >
+                    {this.state.message}
 
-
-                    <label for="password">Mot de passe
-                    <input 
-                    type="text" 
-                    name="password" 
-                    id="password"
-                    value={password}
-                    onChange={e=> setPassword(e.target.value)
-                    }required></input></label>
 
                 </div>
 
+               </div>
+           )}
+           <CheckButton
+           style={{display:"none"}}
+           ref={c=>{
+               this.checkBtn=c;
+           }}
 
-                <div className="secondInfo">
-
-                    <label for="firstname">Prenom
-                    <input 
-                    type="text" 
-                    name="firstname" 
-                    id="firstname"
-                    value={firstname}
-                    onChange={e=> setFirstname(e.target.value)
-                    }required></input></label>
-            
-
-                    <label for="year">Age
-                    <input 
-                    type="text" 
-                    name="year" 
-                    id="year"
-                    value={year}
-                    onChange={e=>setYear(e.target.value)
-                    }required></input></label>
-
-            
-
-                    <label for="mailConfirm">Confimer mail
-                    <input 
-                    type="text" 
-                    name="mailConfirm" 
-                    id="mailConfirm"
-                    required></input></label>
-                    <div id="error-message-mail"></div>
-
-            
-
-                    <label for="passwordConfirm">Confirmer mot de passe
-                    <input 
-                    type="text" 
-                    name="passwordConfirm" 
-                    id="passswordConfirm"
-                    
-                    required></input></label>
-                    <div id="error-message-password"></div>
-
-                </div>
-
-            </div>
-
-            <h2>Centres d'interets</h2>
-
-          
-
-                <div className="label">
-                <label for="sport">Sports activités</label>
-
-                <label for="other">Autres activités</label>
-
-                <label for="art">Art activités</label>
-
-                </div>
-
-                <div className="input">
-                <select 
-                name="sport"
-                id="sport"
-                value={sport}
-                onChange={e => setSport
-                (e.target.value)}
-                required>
-                    <option key=""></option>
-                    {sports.map(sport=>(
-                        <option key={sport}>{sport}</option>
-                    ))}
+           />
 
 
 
-                </select>
-                <select
-                name="other"
-                id="art"
-                value={other}
-                onChange={e => setOther
-                (e.target.value)}
-                required>
-                    <option key=""></option>
-                    {others.map(other=>(
-                        <option key={other}>{other}</option>
-                    ))}
-                </select>
-                
-                 <select 
-                 name="art"
-                 id="other"
-                 value={art}onChange={e => setArt
-                (e.target.value)}
-                required>
-                    <option key=""></option>
-                    {arts.map(art=>(
-                        <option key={art}>{art}</option>
-                    ))}
-                </select>
-
-                
-                
-                </div>
-       
-        <div id="champDescription">
-                <label for="description">Description</label>
-                <textarea  id="description" rows="2" cols="120"/>
-                </div>
-                <button type="submit" id="submit">S'inscrire</button>
-            <div>
+         
             <a href="#">Mot de passe oublié ?</a>
-            </div>
-        </form>
+          
+      </Form>
 
         </div>
     )
 }
 
-export default Inscription;
+}
+

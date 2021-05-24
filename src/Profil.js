@@ -1,11 +1,23 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Header from'./Header.js'
 import './Profil.css'
 import test from './PictoLogoV1.png';
 
+import AuthService from "./service/auth.service";
 
 
-function Profil(){
+
+export default class Profil extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            currentUser: AuthService.getCurrentUser()
+        }
+    }
+
+    render(){
 
     return(
         <div className="Profil">
@@ -44,4 +56,6 @@ function Profil(){
 
 }
 
-export default Profil;
+}
+
+
