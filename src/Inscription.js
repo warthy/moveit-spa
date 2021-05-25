@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './Inscription.css'
-import sexes from './Genre'
+//import sexes from './Genre'
 import sports from './Sport'
 import arts from './Art'
 import others from './Other'
@@ -165,7 +165,7 @@ export default class Inscription extends Component {
     return(
         <div className="Inscription">
               <Link to="/">
-            <img id="fleche" src={fleche} />
+            <img id="fleche" src={fleche} alt="fleche" />
 
             </Link>
         <h1>Inscrivez-vous</h1>
@@ -179,36 +179,40 @@ export default class Inscription extends Component {
         >
 
            {!this.state.successful && (
-               <div>
-                   <div>
+               <div >
+                   <div class="form-row" className="test">
+                   <div class="form-group col-md-4">
                        <label htmlFor="username">Username</label>
                        <Input
                        type="text"
                        name="username"
+                       class="form-control"
                        value={this.state.username}
                        onChange={this.onChangeUsername}
-                       validations={[required]}
+                       validations={[required, vusername]}
 
                        />
                    </div>
 
-                   <div >
+                   <div class="form-group col-md-4">
                   <label htmlFor="lastname">Lastname</label>
                   <Input
                     type="text"
-                  
+                    class="form-control"
                     name="lastname"
                     value={this.state.lastName}
                     onChange={this.onChangeLastname}
                     validations={[required]}
                   />
                 </div>
+                </div>
 
-                <div >
+                <div class="form-row" className="test">
+                <div class="form-group col-md-4">
                   <label htmlFor="firstname">Firstname</label>
                   <Input
                     type="text"
-                    
+                    class="form-control"
                     name="firstname"
                     value={this.state.firstName}
                     onChange={this.onChangeFirstname}
@@ -216,7 +220,24 @@ export default class Inscription extends Component {
                   />
                 </div>
 
-                   <div >
+                <div class="form-group col-md-4">
+                  <label htmlFor="password">Age</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="text"
+                    value={this.state.password}
+                    onChange={this.onChangePassword}
+                    validations={[required, vpassword]}
+                  />
+                </div>
+
+               
+                </div>
+
+                <div class="form-row" className="test">
+
+                <div class="form-group col-md-4">
                   <label htmlFor="email">Email</label>
                   <Input
                     type="text"
@@ -227,9 +248,31 @@ export default class Inscription extends Component {
                     validations={[required, email]}
                   />
                 </div>
+               
 
-                <div className="form-group">
-                  <label htmlFor="password">Password</label>
+              
+
+                <div class="form-group col-md-4">
+                  <label htmlFor="Confirmemail">Confimer le mail</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.onChangeEmail}
+                    validations={[required, email]}
+                  />
+                </div>
+               
+
+               
+                </div>
+
+
+                <div class="form-row" className="test">
+
+                <div class="form-group col-md-4">
+                  <label htmlFor="password">Mot de passe</label>
                   <Input
                     type="password"
                     className="form-control"
@@ -239,6 +282,85 @@ export default class Inscription extends Component {
                     validations={[required, vpassword]}
                   />
                 </div>
+
+                <div class="form-group col-md-4">
+                  <label htmlFor="password">Confimer mot de passe</label>
+                  <Input
+                    type="password"
+                    className="form-control"
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.onChangePassword}
+                    validations={[required, vpassword]}
+                  />
+                </div>
+                
+
+               
+
+                </div>
+                <h2>Centres d'intêrets</h2>
+
+                <div class="form-row">
+                <div class="form-group col-md-4">
+                <label for="sportAct">Sport activités</label>
+                <select
+                name="sports"
+                class="form-control"
+                >
+                    <option key=""></option>
+                    {sports.map(sport=>(
+                        <option key={sport}>{sport}</option>
+                    ))}
+                </select>
+              
+
+                </div>
+
+                <div class="form-group col-md-4">
+                <label for="otherAct">Autres activités</label>
+                <select
+                name="others"
+                class="form-control"
+                >
+                    <option key=""></option>
+                    {others.map(other=>(
+                        <option key={other}>{other}</option>
+                    ))}
+                </select>
+              
+
+                </div>
+
+                <div class="form-group col-md-4">
+                <label for="artAct">Art activités</label>
+                <select
+                name="arts"
+                class="form-control"
+                >
+                    <option key=""></option>
+                    {arts.map(art=>(
+                        <option key={art}>{art}</option>
+                    ))}
+                </select>
+              
+
+                </div>
+
+
+
+
+
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <Input 
+                    type="text" class="form-control"
+                    
+                    />
+
+                    </div>
 
                 <div>
                     <button>S'inscrire</button>
@@ -276,7 +398,7 @@ export default class Inscription extends Component {
 
 
          
-            <a href="#">Mot de passe oublié ?</a>
+            <a >Mot de passe oublié ?</a>
           
       </Form>
 

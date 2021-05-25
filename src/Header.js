@@ -1,7 +1,7 @@
 import React from 'react'
 import './Header.css'
 import miniLogo from './PictoLogoV1.png'
-import {Link} from 'react-router-dom'
+
 
 
 function Header(){

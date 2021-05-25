@@ -13,6 +13,7 @@ form{
     border:1px solid black;
     margin-left: 10%;
     margin-right: 10%;
+    margin-top: 5%;
     border-radius:10px;
 
 
@@ -20,26 +21,8 @@ form{
 
 }
 
-label{
-    color:black;
-}
-
-input{
-    display: inline-block;
-    margin-top:30px;
-    margin-left: 30px;
-    height:35px;
-    width:500px;
-}
-label{
-    text-align: center;
-    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif; 
-    font-weight: bold;
-}
-
-#formConnexion{
-    display:flex;
-    flex-direction:column;
+.form-control{
+    width:200px;
 }
 
 
@@ -70,12 +53,12 @@ button{
     margin-top: 5%;
 }
 
-#mdp{
-    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
-    color:black;
-    font-size: 10px;
-    
+#formConnexion{
+    margin-top:5%;
 }
+
+
+
 
 #fleche2{
     width:60px;

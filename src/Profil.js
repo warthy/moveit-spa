@@ -12,12 +12,23 @@ export default class Profil extends Component {
     constructor(props) {
         super(props);
 
+       
+       
+    
+
+   
         this.state = {
             currentUser: AuthService.getCurrentUser()
-        }
+           
+        };
+        console.log(AuthService.getCurrentUser());
+
+
     }
+   
 
     render(){
+        const { currentUser } = this.state;
 
     return(
         <div className="Profil">
@@ -25,10 +36,12 @@ export default class Profil extends Component {
 
               <div id="firstInfoProfil">
                     <div id="nomPhoto">
-                        <img src={test} id="photoProfil" />
-                        <h2 className="infoPersonn">NOM DE LA PERSONNE</h2>
+                        <img src={test} alt="photo de profil" id="photoProfil" />
+                        <h2 className="infoPersonn">{currentUser.data.token}</h2>
 
                     </div>
+
+
 
                     <div id="ageMailLieu">
                         <p className="infoPersonn">Age dela personne</p>

@@ -11,10 +11,12 @@ class AuthService {
             password
         })
         .then(response =>{
-            if(response.data.accessToken){
-                localStorage.setItem("user", JSON.stringify(response.data));
+            if(response.data.token){
+                console.log("yo");
+                localStorage.setItem('user', JSON.stringify(response));
             }
-            return response.data;
+            
+            return response;
         });
     }
 
@@ -33,7 +35,7 @@ class AuthService {
     }
 
     getCurrentUser(){
-        return JSON.parse(localStorage.getItem("user"));
+        return JSON.parse(localStorage.getItem('user'));
     }
 }
 

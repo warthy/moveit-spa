@@ -62,8 +62,8 @@ export default class Connexion extends Component {
         if(this.checkBtn.context._errors.length===0){
             AuthService.login(this.state.username, this.state.password).then(
                 ()=>{
-                    this.props.history.push("/profil");
-                    window.location.reload();
+                   this.props.history.push("/profil");
+                   //window.location.reload();
                 },
                 error=>{
                     const resMessage = 
@@ -93,7 +93,7 @@ export default class Connexion extends Component {
             <div className="Connexion">
     
                 <Link to="/">
-                    <img id="fleche2" src={fleche} />
+                    <img id="fleche2" src={fleche} alt="fleche"/>
     
                 </Link>
             <h1>Connexion</h1>
@@ -107,35 +107,47 @@ export default class Connexion extends Component {
     
     
         <div id="formConnexion"> 
-            <label for="email">  <img id="user" src={user}/>
+
+        <div class="form-group row">
+        <label for="exampleInputEmail1" class="col-sm-2 col-form-label"><img id="user" src={user} alt="user" /></label>
+   
+        <div class="col-sm-10">
             <Input
             type="text" 
+            class="form-control"
             name="username"
             value={this.state.username}
             onChange={this.onChangeUsername}
             validations={[required]}
-            id="email"
+            id="exampleInputEmail1"
             placeholder="Mail"
            
-           /></label>
+           />
+           </div>
+      
+           </div>
     
     
-          
-            <label for="paswword">  <img id="cadenas" src={cadenas}/>
+           <div class="form-group row">
+            <label for="exampleInputPassword1" class="col-sm-2 col-form-label">  <img id="cadenas" src={cadenas} alt="cadenas"/></label>
+            <div class="col-sm-10">
                     <Input
                     type="password" 
                     name="password" 
+                    class="form-control"
                     value={this.state.password}
                     onChange={this.onChangePassword}
                     validations={[required]}
-                    id="password"
+                    id="exampleInputPassword1"
                     placeholder="Mot de passe"
                     
                      />
-            </label>
+           
+            </div>
+            </div>
             
             </div>
-            <button>
+            <button class="btn btn-primary">
                 
                 {this.state.loading }
                 <span>Se connecter</span>
@@ -152,13 +164,12 @@ export default class Connexion extends Component {
                 </div>
             )}
 
-            <CheckButton
-            style={{dispaly:"none"}}
-            ref={c=>{
-                this.checkBtn=c;
-            }}
-    
-           />
+        <CheckButton
+        style={{ display: "none" }}
+        ref={c => {this.checkBtn = c;}}
+      />
+
+         
          </Form>
     
             </div>
