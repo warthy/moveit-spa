@@ -12,6 +12,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "./service/auth.service";
+import { InputGroup } from 'react-bootstrap'
 
 const required = value =>{
     if (!value){
@@ -33,6 +34,34 @@ const required = value =>{
         }
       };
       
+      const birthdate = value => {
+        var date = new Date();
+        var day;
+        var month;
+        if(date.getMonth()+1 < 10){
+          month = "0"+(date.getMonth()+1).toString();
+        }else{
+          month = (date.getMonth()+1).toString();
+        }
+        if(date.getDate()<10){
+          day = "0"+(date.getDate()).toString();
+        }else{
+          day = (date.getDate()).toString();
+        }
+        var toDay = [date.getFullYear().toString(),month,day];
+        var toDayString = toDay[0]+"-"+toDay[1]+"-"+toDay[2];
+        var userDay = value.split("-");
+        toDay = toDay[0]+toDay[1]+toDay[2];
+        userDay = userDay[0]+userDay[1]+userDay[2];
+        if (userDay>toDay) { 
+          return (
+            <div className="alert alert-danger" role="alert">
+              You can't born in the future !
+            </div>
+          );
+        }
+      };
+
       const vusername = value => {
         if (value.length < 3 || value.length > 20) {
           return (
@@ -62,6 +91,7 @@ export default class Inscription extends Component {
             this.onChangeUsername=this.onChangeUsername.bind(this);
             this.onChangeLastname=this.onChangeLastname.bind(this);
             this.onChangeFirstname=this.onChangeFirstname.bind(this);
+            this.onChangeBirthdate=this.onChangeBirthdate.bind(this);
             this.onChangeEmail = this.onChangeEmail.bind(this);
             this.onChangePassword = this.onChangePassword.bind(this);
 
@@ -69,6 +99,7 @@ export default class Inscription extends Component {
                 username:"",
                 lastName:"",
                 firstName:"",
+                birthdate:"",
                 email:"",
                 password:"",
                 successful:false,
@@ -93,13 +124,19 @@ export default class Inscription extends Component {
                   firstName: e.target.value
               });
           }
-        
+
+          onChangeBirthdate(e){
+            this.setState({
+                birthdate: e.target.value
+            });
+        }
+
           onChangeEmail(e) {
             this.setState({
               email: e.target.value
             });
           }
-        
+
           onChangePassword(e) {
             this.setState({
               password: e.target.value
@@ -126,6 +163,7 @@ export default class Inscription extends Component {
                       this.state.username, 
                       this.state.lastName,
                       this.state.firstName,
+                      this.state.birthdate,
                       this.state.email,
                       this.state.password
                   ).then(
@@ -221,14 +259,15 @@ export default class Inscription extends Component {
                 </div>
 
                 <div class="form-group col-md-4">
-                  <label htmlFor="password">Age</label>
+                  <label htmlFor="birthdate">Birthdate</label>
                   <Input
-                    type="text"
+                    type="date"
                     className="form-control"
-                    name="text"
-                    value={this.state.password}
-                    onChange={this.onChangePassword}
-                    validations={[required, vpassword]}
+                    name="birthdate"
+                    value={this.state.birthdate}
+                    max={"2021-05-25"} //A modifier pour prendre la date du jour !
+                    onChange={this.onChangeBirthdate}
+                    validations={[required, birthdate]}
                   />
                 </div>
 
