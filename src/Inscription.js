@@ -12,6 +12,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "./service/auth.service";
+import { InputGroup } from 'react-bootstrap'
 
 const required = value =>{
     if (!value){
@@ -32,7 +33,17 @@ const required = value =>{
           );
         }
       };
-      
+
+      const birthdate = value => {
+        if (new Date(value) > new Date()) {
+          return (
+            <div className="alert alert-danger" role="alert">
+              You can't born in the future !
+            </div>
+          );
+        }
+      };
+
       const vusername = value => {
         if (value.length < 3 || value.length > 20) {
           return (
@@ -62,15 +73,22 @@ export default class Inscription extends Component {
             this.onChangeUsername=this.onChangeUsername.bind(this);
             this.onChangeLastname=this.onChangeLastname.bind(this);
             this.onChangeFirstname=this.onChangeFirstname.bind(this);
+            this.onChangeBirthdate=this.onChangeBirthdate.bind(this);
             this.onChangeEmail = this.onChangeEmail.bind(this);
+            this.onChangeEmailConfirmation = this.onChangeEmailConfirmation.bind(this);
             this.onChangePassword = this.onChangePassword.bind(this);
+            this.onChangePasswordConfirmation = this.onChangePasswordConfirmation.bind(this);
 
             this.state={
                 username:"",
                 lastName:"",
                 firstName:"",
+                birthdate:"",
+                today:new Date().toISOString().split("T")[0],
                 email:"",
+                emailConfirmation:"",
                 password:"",
+                passwordConfirmation:"",
                 successful:false,
                 message:""
             };
@@ -93,16 +111,34 @@ export default class Inscription extends Component {
                   firstName: e.target.value
               });
           }
-        
+
+          onChangeBirthdate(e){
+            this.setState({
+                birthdate: e.target.value
+            });
+        }
+
           onChangeEmail(e) {
             this.setState({
               email: e.target.value
             });
           }
-        
+
+          onChangeEmailConfirmation(e) {
+            this.setState({
+              emailConfirmation: e.target.value
+            });
+          }
+
           onChangePassword(e) {
             this.setState({
               password: e.target.value
+            });
+          }
+
+          onChangePasswordConfirmation(e) {
+            this.setState({
+              passwordConfirmation: e.target.value
             });
           }
 
@@ -126,8 +162,11 @@ export default class Inscription extends Component {
                       this.state.username, 
                       this.state.lastName,
                       this.state.firstName,
+                      this.state.birthdate,
                       this.state.email,
-                      this.state.password
+                      this.state.emailConfirmation,
+                      this.state.password,
+                      this.state.passwordConfirmation
                   ).then(
                       response => {
                           this.setState({
@@ -221,14 +260,15 @@ export default class Inscription extends Component {
                 </div>
 
                 <div class="form-group col-md-4">
-                  <label htmlFor="password">Age</label>
+                  <label htmlFor="birthdate">Birthdate</label>
                   <Input
-                    type="text"
+                    type="date"
                     className="form-control"
-                    name="text"
-                    value={this.state.password}
-                    onChange={this.onChangePassword}
-                    validations={[required, vpassword]}
+                    name="birthdate"
+                    value={this.state.birthdate}
+                    max={this.state.today}
+                    onChange={this.onChangeBirthdate}
+                    validations={[required, birthdate]}
                   />
                 </div>
 
@@ -257,9 +297,9 @@ export default class Inscription extends Component {
                   <Input
                     type="text"
                     className="form-control"
-                    name="email"
-                    value={this.state.email}
-                    onChange={this.onChangeEmail}
+                    name="emailConfirmation"
+                    value={this.state.emailConfirmation}
+                    onChange={this.onChangeEmailConfirmation}
                     validations={[required, email]}
                   />
                 </div>
@@ -289,8 +329,8 @@ export default class Inscription extends Component {
                     type="password"
                     className="form-control"
                     name="password"
-                    value={this.state.password}
-                    onChange={this.onChangePassword}
+                    value={this.state.passwordConfirmation}
+                    onChange={this.onChangePasswordConfirmation}
                     validations={[required, vpassword]}
                   />
                 </div>
