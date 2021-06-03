@@ -1,82 +1,210 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Header from'./Header.js'
 import './AddActivities.css'
 
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
 
-function AddActivities(){
+import ActivitieService from "./service/activities.service";
 
+const required = value =>{
+    if (!value){
+        return (
+            <div className="alert alert-danger" role="alert">
+              This field is required!
+            </div>
+          );
+        }
+      };
+
+
+
+export default class AddActivities extends Component {
+
+    constructor(props){
+        super(props);
+        this.handleActivities=this.handleActivities.bind(this);
+        this.onChangeDescription=this.onChangeDescription.bind(this);
+        this.onChangeLocation=this.onChangeLocation.bind(this);
+        this.onChangeName=this.onChangeName.bind(this);
+        this.onChangeStart=this.onChangeStart.bind(this);
+
+        this.state={
+            description:"",
+            location:"",
+            name:"",
+            start:"",
+            successful:"",
+            message:"",
+        };
+
+    }
+
+    onChangeDescription(e){
+        this.setState({
+            description:e.target.value
+        });
+    }
+
+    onChangeLocation(e){
+        this.setState({
+            location:e.target.value
+        });
+    }
+
+    onChangeName(e){
+        this.setState({
+            name:e.target.value
+        });
+    }
+
+    onChangeStart(e){
+
+        this.setState({
+            start:e.target.value
+        });
+    }
+
+    handleActivities(e){
+
+        e.preventDefault();
+
+        this.setState({
+            message:"",
+            successful:false
+        });
+
+        this.form.validateAll();
+        console.log(this.form.validateAll());
+
+        if(this.checkBtn.context._errors.length===0){
+            ActivitieService.createActivitie(
+                this.state.description,
+                this.state.location,
+                this.state.name,
+                this.state.start
+                ).then(response =>{
+                    this.setState({
+                        message:response.data.message,
+                        successful:false
+                    });
+                }, 
+                error=>{
+                    const resMessage =
+                    (error.response && 
+                        error.response.data && 
+                        error.response.data.message) || 
+                        error.message||
+                        error.toString();
+
+                        this.setState({
+                            successful:false,
+                            message:resMessage
+                        });
+                }
+                );
+        }
+    }
+
+    render(){
     return(
       
            <div className="AddActivities">
            <Header />
         <h1>Ajouter une activité</h1>
 
-        <form >
+        <Form 
+        onSubmit={this.handleActivities}
+        ref={c=>
+            {this.form=c;
+        }}>
 
 
+        {!this.state.successful && (
 
-    <div className="champ">
-        <label for="lastname">Nom de l'activité
-        <input 
+      <div>
+        <div class="form-row" className="test">
+        <div class="form-group col-md-4">
+        <label for="lastname">Nom de l'activité </label>
+        <Input 
         type="text" 
         name="lastname" 
-        id="lastname"></input></label>
+        class="form-control"
+        value={this.state.name}
+        onChange={this.onChangeName}
+        id="lastname" />
+        </div>
 
      
-
-        <label for="email">Organisateur
+        <div class="form-group col-md-4">
+        <label for="email">Organisateur</label>
         <input 
         type="text" 
         name="email"
-        id="email"></input></label>
+        class="form-control"
+        id="email"></input>
         
+        </div>
         </div>
 
 
-        <div className="champ">
-        <label for="password">Type 
-        <input 
+        <div class="form-row" className="test">
+        <div class="form-group col-md-4">
+        <label for="password">Type </label>
+        <Input 
         type="text" 
         name="password" 
-        id="password"></input></label>
+        class="form-control"
+        id="password" />
        
-
+        </div>
  
 
 
   
-
-        <label for="firstname">Lieu
-        <input 
+        <div class="form-group col-md-4">
+        <label for="firstname">Lieu</label>
+        <Input 
         type="text" 
         name="firstname" 
-        id="firstname"></input></label>
-
+        class="form-control"
+        value={this.state.location}
+        onChange={this.onChangeLocation}
+        id="firstname" />
+    </div>
 </div>
 
-<div className="champ">
-        <label for="year">Date
-        <input 
-        type="text" 
+<div class="form-row" className="test">
+<div class="form-group col-md-4">
+        <label for="year">Date</label>
+        <Input 
+        type="date" 
         name="year" 
-        id="year"></input></label>
- 
+        class="form-control"
+        value={this.state.start}
+        onChange={this.onChangeStart}
+        id="year" />
+ </div>
 
 
 
-       
-        <label for="mailConfirm">Heure
-        <input 
-        type="text" 
+ <div class="form-group col-md-4">
+        <label for="mailConfirm">Heure</label>
+        <Input 
+        type="time" 
         name="mailConfirm" 
         id="mailConfirm"
-        required></input></label>
+        class="form-control"
+      />
+               </div>
+
                </div>
         
 
-        <div id="otherParticipant">
+               <div class="form-group">
         <label>Autres participants</label>
-        <textarea  id="description3" rows="2" cols="110"></textarea>
+        <textarea class="form-control" id="description3" rows="2"></textarea>
 
     </div>
 
@@ -89,25 +217,58 @@ function AddActivities(){
     
 
 
-<div id="champDescription2">
+    <div class="form-group">
     <label id="description" for="description">Informations complémentaires</label>
-        <textarea rows="5" cols="145"></textarea>
+        <textarea class="form-control" rows="5" 
+        value={this.state.description}
+        onChange={this.onChangeDescription}></textarea>
     </div>
 
 
 
-    <button type="submit" id="submit">Ajouter l'évènement</button>
+    <button type="submit" class="btn btn-light" id="submit">Ajouter l'évènement</button>
 
-</form>
-         
+    </div>
+    )}
 
-        </div>
+{this.state.message && (
+               <div>
+
+                    <div className={this.state.successful
+                    ?"alert alert-success"
+                : "alert alert-danger"
+            
+            }
+            role="alert"
+                >
+                    {this.state.message}
+
+                    </div>
+
+                    </div>
+
+)}
+
+
+<CheckButton
+           style={{display:"none"}}
+           ref={c=>{
+               this.checkBtn=c;
+           }}
+
+           />
+    
+</Form>
+</div>
+
+     
 
       
 
-    );
+    )
+    }
 
 
 }
 
-export default AddActivities;
+

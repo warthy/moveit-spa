@@ -223,12 +223,12 @@ export default class Inscription extends Component {
                 <div class="form-group col-md-4">
                   <label htmlFor="password">Age</label>
                   <Input
-                    type="text"
+                    type="date"
                     className="form-control"
                     name="text"
                     value={this.state.password}
                     onChange={this.onChangePassword}
-                    validations={[required, vpassword]}
+                    validations={[required]}
                   />
                 </div>
 

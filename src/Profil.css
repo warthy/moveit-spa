@@ -7,37 +7,23 @@
   
     
 }
-
-#firstInfoProfil{
-    display:flex;
-    justify-content:space-between;
-    margin-left : 50px;
-    margin-right : 50px;
+#Partit_haute{
+    display: flex;
+    justify-content: space-around;
 }
 
-#nomPhoto{
-    display:flex;
-}
 
-#ageMailLieu{
-    display:flex;
-    flex-direction:column;
-}
 
 #photoProfil{
     width:100px;
     height: 100px;
 }
 
-.infoPersonn{
-    
-    text-decoration: none;
-    color:white;
-    font-family:Century Gothic,CenturyGothic,AppleGothic,sans-serif;
-
-}
 #secondInfoProfil{
-    display:flex;
-    flex-direction:column;
-    color:white;
+    float:left;
 }
+
+#troisiemeInfoProfil, h3{
+    float:left;
+}
+

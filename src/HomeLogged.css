@@ -1,0 +1,35 @@
+.HomeLogged {
+    background-color: rgb(173, 26, 41);
+    height:100%;
+    width: 100%;
+    position:absolute;
+    top: 0; left: 0;
+  
+    
+}
+
+h1{
+    color:black;
+}
+
+
+li{
+    margin-top:50px;
+}
+
+.labelQuestion{
+    display: flex;
+    justify-content: space-around;
+}
+
+#croix, #coeur, #message{
+    width:50px;
+    height:50px;
+    background-color:white;
+    clip-path:ellipse(50% 50%);
+}
+
+#activity{
+    margin-right: 50px;
+    background-color:rgb(248, 232, 233);
+}

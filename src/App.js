@@ -7,6 +7,8 @@ import Inscription from './Inscription'
 //import Navigation from './Navigation'
 import AddActivities from './AddActivities'
 import Profil from './Profil'
+import HomeLogged from './HomeLogged'
+import EmploiDuTemps from './EmploiDuTemps'
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -36,6 +38,12 @@ function App() {
       <Route path="/addActivities"render={()=>(token ? (<Route component={AddActivities} />) : 
       (<Redirect to='/' />))}/>
       <Route path="/profil" render={()=>(token ? (<Route component={Profil} />) :
+      (<Redirect to='/' />))}/>
+
+      <Route  path="/Home" render={()=>(token ? (<Route component={HomeLogged} />) :
+      (<Redirect to='/' />))}/>
+      <Route path="/home/:id" exact component={HomeLogged} />
+      <Route path="/emploi" render={()=>(token ? (<Route component={EmploiDuTemps} />):
       (<Redirect to='/' />))}/>
 
 

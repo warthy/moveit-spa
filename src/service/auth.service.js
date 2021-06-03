@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:8080/s/";
+const API_URL2 = "http://localhost:8080/user/";
 
 class AuthService {
 
@@ -12,11 +13,11 @@ class AuthService {
         })
         .then(response =>{
             if(response.data.token){
-                console.log("yo");
-                localStorage.setItem('user', JSON.stringify(response));
+                
+                localStorage.setItem('user', JSON.stringify(response.data.token));
             }
             
-            return response;
+            return response.data.token;
         });
     }
 
@@ -35,7 +36,32 @@ class AuthService {
     }
 
     getCurrentUser(){
-        return JSON.parse(localStorage.getItem('user'));
+        
+  
+        const user = JSON.parse(localStorage.getItem('user'));
+        
+        
+        console.log(user);
+       
+        return axios.get(API_URL2 + "me",{ headers:{
+            Authorization: `Bearer  ${user}`,
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+          },
+         })   
+            
+        
+         
+         .then(( data ) => {
+             console.log( "data is...", data );
+            
+         })
+         .catch(( err ) => {
+            
+             console.log( err );
+         })
+       
     }
 }
 
