@@ -1,10 +1,8 @@
 
 import './App.css';
-
 import Home from'./Home';
 import Connexion from './Connexion'
 import Inscription from './Inscription'
-//import Navigation from './Navigation'
 import AddActivities from './AddActivities'
 import Profil from './Profil'
 import HomeLogged from './HomeLogged'
@@ -20,7 +18,6 @@ function App() {
  
   const authentifié = localStorage.getItem('user');
   if(authentifié){
-   
     AuthService.getCurrentUser()
     token=true;
   }else{

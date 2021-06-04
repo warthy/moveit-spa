@@ -4,7 +4,7 @@ import './Inscription.css'
 import sports from './Sport'
 import arts from './Art'
 import others from './Other'
-import fleche from './fleche.png'
+import fleche from './images/fleche.png'
 import {Link} from 'react-router-dom'
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -12,7 +12,7 @@ import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "./service/auth.service";
-import { InputGroup } from 'react-bootstrap'
+
 
 const required = value =>{
     if (!value){
@@ -34,7 +34,7 @@ const required = value =>{
         }
       };
 
-      const birthdate = value => {
+     /* const birthdate = value => {
         if (new Date(value) > new Date()) {
           return (
             <div className="alert alert-danger" role="alert">
@@ -42,7 +42,7 @@ const required = value =>{
             </div>
           );
         }
-      };
+      };*/
 
       const vusername = value => {
         if (value.length < 3 || value.length > 20) {
@@ -83,11 +83,13 @@ export default class Inscription extends Component {
                 username:"",
                 lastName:"",
                 firstName:"",
-                birthdate:"",
-                today:new Date().toISOString().split("T")[0],
                 email:"",
-                emailConfirmation:"",
                 password:"",
+               
+                today:new Date().toISOString().split("T")[0],
+                
+                emailConfirmation:"",
+                
                 passwordConfirmation:"",
                 successful:false,
                 message:""
@@ -162,10 +164,12 @@ export default class Inscription extends Component {
                       this.state.username, 
                       this.state.lastName,
                       this.state.firstName,
-                      this.state.birthdate,
                       this.state.email,
-                      this.state.emailConfirmation,
                       this.state.password,
+                     
+                      
+                      this.state.emailConfirmation,
+                    
                       this.state.passwordConfirmation
                   ).then(
                       response => {
@@ -267,8 +271,7 @@ export default class Inscription extends Component {
                     name="birthdate"
                     value={this.state.birthdate}
                     max={this.state.today}
-                    onChange={this.onChangeBirthdate}
-                    validations={[required, birthdate]}
+                   
                   />
                 </div>
 
@@ -438,7 +441,7 @@ export default class Inscription extends Component {
 
 
          
-            <a >Mot de passe oublié ?</a>
+            <a href="/">Mot de passe oublié ?</a>
           
       </Form>
 

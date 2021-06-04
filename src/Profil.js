@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import Header from'./Header.js'
 import './Profil.css'
-import test from './PictoLogoV1.png';
+import test from './images/PictoLogoV1.png';
 
-import AuthService from "./service/auth.service";
+
 import axios from "axios";
 
 
@@ -23,25 +23,12 @@ export default class Profil extends Component {
     }
  componentDidMount(){
            this.getData();
-
-
-
-           
-            
-        
-         
-      
+}
        
 
-       }
-       async getData(){
 
-       
-        
-        
-  
-       
-        const response = axios.get(API_URL2 + "me",{ headers:{
+async getData(){
+    const response = axios.get(API_URL2 + "me",{ headers:{
             Authorization: `Bearer  ${user}`,
             'Content-Type': 'application/json;charset=UTF-8',
             'Access-Control-Allow-Origin' : '*',
@@ -49,10 +36,10 @@ export default class Profil extends Component {
           },
          }) 
          
-         const {data} = await response;
-         this.setState({currentUser: data})
+    const {data} = await response;
+    this.setState({currentUser: data})
 
-        }
+}
     
 
        
@@ -71,7 +58,7 @@ export default class Profil extends Component {
 
               <div id="Partit_haute">
                     <div>
-                        <img src={test} alt="photo de profil" id="photoProfil" />
+                        <img src={test} alt="photo de profil" />
                     </div>
 
 

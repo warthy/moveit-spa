@@ -1,4 +1,4 @@
-export default [
+const sport = [
     'Tennis',
     'Football',
     'Equitation',
@@ -12,3 +12,5 @@ export default [
     'Marche',
     'Handball'
 ];
+
+export default sport;

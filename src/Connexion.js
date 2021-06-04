@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import './Connexion.css'
 import Form from "react-validation/build/form";
-import cadenas from'./cadenas.png'
-import user from'./user.png'
-import fleche from './fleche.png'
+import cadenas from'./images/cadenas.png'
+import user from'./images/user.png'
+import fleche from './images/fleche.png'
 import {Link} from 'react-router-dom'
 import Input from "react-validation/build/input";
 import CheckButton from 'react-validation/build/button';
@@ -153,7 +153,7 @@ export default class Connexion extends Component {
                 <span>Se connecter</span>
                 </button>
             <div >
-            <a  id="mdp" href="#">Mot de passe oublié ?</a>
+            <a  id="mdp" href="/">Mot de passe oublié ?</a>
             </div>
 
             {this.state.message &&(

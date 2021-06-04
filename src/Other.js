@@ -1,4 +1,4 @@
-export default [
+const other = [
     'Pétanque',
     'Yoga',
     'Méditation',
@@ -7,3 +7,5 @@ export default [
     'Paintball',
     'Révisions'
 ];
+
+export default other;

@@ -1,6 +1,6 @@
 import React from 'react'
 import './Header.css'
-import miniLogo from './PictoLogoV1.png'
+import miniLogo from './images/PictoLogoV1.png'
 
 
 
@@ -13,21 +13,21 @@ function Header(){
       <div class="main_pages">
 
     
-            <a className="btn-header">HOME</a>
+            <a href="/home" className="btn-header">HOME</a>
 
            
 
  
-            <a className="btn-header">MESSAGERIE</a>
+            <a href="/" className="btn-header">MESSAGERIE</a>
            
-            <img id="mini-logo" src={miniLogo} />
+            <img id="mini-logo" src={miniLogo} alt="logo"/>
 
  
-            <a className="btn-header">EMPLOI DU TEMPS</a>
+            <a href="/emploi" className="btn-header">EMPLOI DU TEMPS</a>
           
 
 
-            <a className="btn-header">PROFIL</a>
+            <a href="/profil" className="btn-header">PROFIL</a>
            
 
             </div>

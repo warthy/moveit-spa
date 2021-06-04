@@ -25,13 +25,14 @@ class AuthService {
         localStorage.removeItem("user");
     }
 
-    register(username, lastName, firstName, email, password){
+    register(username, lastName, firstName, email, password,){
         return axios.post(API_URL + "register",{
             username,
                 lastName,
                 firstName,
                 email,
                 password,
+
         });
     }
 
@@ -41,8 +42,7 @@ class AuthService {
         const user = JSON.parse(localStorage.getItem('user'));
         
         
-        console.log(user);
-       
+        
         return axios.get(API_URL2 + "me",{ headers:{
             Authorization: `Bearer  ${user}`,
             'Content-Type': 'application/json;charset=UTF-8',
@@ -54,7 +54,7 @@ class AuthService {
         
          
          .then(( data ) => {
-             console.log( "data is...", data );
+             return data;
             
          })
          .catch(( err ) => {

@@ -1,5 +1,7 @@
 import axios from "axios";
-const API_URL="http://localhost:8080/";
+
+
+const API_URL="http://localhost:8080/activity/";
 const user = JSON.parse(localStorage.getItem('user'));
 
 class ActivitieService{
@@ -10,7 +12,7 @@ class ActivitieService{
         
         return axios({
             method: 'POST',
-            url:API_URL + "activity",
+            url:API_URL,
             data: { 
             description,
             name,
@@ -29,10 +31,10 @@ class ActivitieService{
 }
 
         createParticipant(activity_id){
-            alert("yo")
+          
             return axios({
                 method: 'POST',
-                url:"http://localhost:8080/activity/"+activity_id+"/join",
+                url: API_URL+activity_id+"/join",
                 data:{
                     activity_id,
                    

@@ -49,7 +49,7 @@ export default class EmploiDuTemps extends Component {
         for (var j=0; j<data[i].participants; j++) {}
         console.log(data[i].participants[j].id);
 
-        if(data[i].participants[j].id==this.state.currentUser.id){
+        if(data[i].participants[j].id===this.state.currentUser.id){
             this.setState({activities:data[i]})
         }
     }
