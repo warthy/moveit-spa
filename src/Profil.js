@@ -3,6 +3,8 @@ import Header from'./Header.js'
 import './Profil.css'
 import test from './images/PictoLogoV1.png';
 
+import Modal from './composants/Modal';
+
 
 import axios from "axios";
 
@@ -17,12 +19,14 @@ export default class Profil extends Component {
 
        
        this.state = {
-          currentUser:[]
+          currentUser:[],
+          users:[],
           
        };
     }
  componentDidMount(){
            this.getData();
+           this.getAllUser();
 }
        
 
@@ -40,6 +44,23 @@ async getData(){
     this.setState({currentUser: data})
 
 }
+
+async getAllUser(){
+    const response = axios.get("http://localhost:8080/user", {headers:{
+        Authorization: `Bearer  ${user}`,
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    },
+
+})
+
+const {data} = await response;
+this.setState({users: data})
+console.log(data)
+}
+
+
     
 
        
@@ -50,6 +71,7 @@ async getData(){
    
 
     render(){
+        const {users}=this.state;
       
 
     return(
@@ -58,6 +80,7 @@ async getData(){
 
               <div id="Partit_haute">
                     <div>
+                    <Modal />
                         <img src={test} alt="photo de profil" />
                     </div>
 
@@ -99,8 +122,26 @@ async getData(){
                   <p >dskjf qdf  qsfkf qkfgopk qokspfokqdg qokFDK Qokgkq qkofgk QOSKFQKDGF oqkfgKKQG KQSDKOF GSQDK GKFKG  KQKKkf,d </p>
                   </div>
 
+                  <a href="/activityUser">Voir mes activités</a>
+
+            
+                  <div>
+                    <ul>
+                        {users.map(user=>(
+                            <li key={user.id}>{user.id}
+
+                            <a href={"/user/"+user.id} onClick={this.getOneUser}>Voir profil</a>
+
+                            </li>
+                        ))}
+
+                    </ul>
+
+                  </div>
              
         </div>
+
+   
         
 
     );

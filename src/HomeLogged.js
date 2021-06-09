@@ -34,7 +34,7 @@ export default class HomeLogged extends Component {
 
     
     async getAllActivities() {
-        const response = axios.get(API_URL ,{headers:{
+        const response = axios.get("http://localhost:8080/activity" ,{headers:{
             Authorization: `Bearer  ${user}`,
             'Content-Type': 'application/json;charset=UTF-8',
             'Access-Control-Allow-Origin' : '*',
@@ -44,6 +44,7 @@ export default class HomeLogged extends Component {
 
     const {data} = await response;
     this.setState({activities: data})
+    console.log(data)
     
     }
 
@@ -90,6 +91,8 @@ export default class HomeLogged extends Component {
             <div className="HomeLogged">
                 <Header />
                 <h1>Trouvez une activités</h1>
+
+                
                 <ul>
                     {activities.map(activity=>(
                         <li class="list-group-item" id="activity" key={activity.name}><div className="labelQuestion"> <p>QUI ?</p> <p>QUOI ?</p> <p>QUAND ?</p> <p>OU ?</p> </div><br />
@@ -97,6 +100,8 @@ export default class HomeLogged extends Component {
                             <div className="labelQuestion">  <img id="croix" src={croix} alt="croix" class="rounded" /> <button date_id="123"><img id="coeur" src={coeur} alt="coeur" />     </button><img id="message" src={message} alt="message" /> </div>
                             
                             <a href={"/home/"+activity.id}  onClick={this.getActivity}> Activity</a>
+                            <a href={"/activity/"+activity.id} >Voir l'activité en details</a>
+                            
                             </li>
                     ))}
                     </ul>

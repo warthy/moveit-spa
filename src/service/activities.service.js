@@ -12,7 +12,7 @@ class ActivitieService{
         
         return axios({
             method: 'POST',
-            url:API_URL,
+            url:"http://localhost:8080/activity",
             data: { 
             description,
             name,
@@ -48,6 +48,23 @@ class ActivitieService{
                 }
             })
         }
+
+        deleteActivity(activity_id){
+            alert("yo")
+            return axios({
+                method: 'DELETE',
+                url: API_URL+activity_id,
+
+                headers:{
+                    Authorization: `Bearer ${user}`,
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                }
+            })
+        }
+
+      
 
 
 
