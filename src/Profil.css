@@ -26,4 +26,8 @@
 #troisiemeInfoProfil, h3{
     float:left;
 }
+#seeProfil{
+    width: 100px;
+    float:right;
+}
 

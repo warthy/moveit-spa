@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+
 import './Modal.css'
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import axios from 'axios';
-import ActivitieService from "../service/activities.service";
+
 import AuthService from '../service/auth.service';
 import Noty from 'noty';  
 import "../../node_modules/noty/lib/noty.css";  
@@ -32,11 +31,14 @@ export default class SimpleModal extends Component  {
       currentUser:[],
       username:"",
       description:"",
+      
     }
   }
   componentDidMount() {
     this.getCurrentUser();
   }
+
+  
 
   onChangeDescription(e){
     this.setState({
@@ -105,6 +107,7 @@ this.setState({
 
 
       render() {
+    
 
         return(
       
@@ -113,6 +116,7 @@ this.setState({
 
     <div
     style={{
+    
       opacity: this.props.show ? '1': '0'
     }}
     >
@@ -128,10 +132,10 @@ this.setState({
       >
         
           <div >
-          <button onClick={this.props.hideModal} >X</button>
+          <button type="button" class="btn btn-danger" id="bouttonCroix" onClick={this.props.hideModal} >X</button><br></br>
               <label className="col-4 col-form-label" for ="profile-email">Usernamae</label>
               <Input
-              className="form-control col-8"
+              className="form-control"
               value={this.state.currentUser.username}
               onChange={this.onChangeUsername}
               />
@@ -140,13 +144,13 @@ this.setState({
           <div >
               <label className="col-4 col-form-label" for ="profile-email">Description</label>
               <Input
-              className="form-control col-8"
+              className="form-control"
               value={this.state.currentUser.description}
               onChange={this.onChangeDescription}
               />
           </div>
           
-    <button className="btn btn-primary">Changer ses modifs</button>
+    <button id="modifChange" className="btn btn-primary">Changer ses modifs</button>
 
       </Form>
 

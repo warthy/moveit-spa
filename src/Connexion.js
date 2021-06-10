@@ -59,7 +59,6 @@ export default class Connexion extends Component {
 
         this.form.validateAll();
 
-        if(this.checkBtn.context._errors.length===0){
             AuthService.login(this.state.username, this.state.password).then(
                 ()=>{
                    this.props.history.push("/home");
@@ -79,11 +78,9 @@ export default class Connexion extends Component {
                         });
                     }
                 );
-    }else{
-        this.setState({
-            loading:false
-        });
-    }
+    
+ 
+    
 }
 
     render() {
@@ -164,11 +161,7 @@ export default class Connexion extends Component {
                 </div>
             )}
 
-        <CheckButton
-        style={{ display: "none" }}
-        ref={c => {this.checkBtn = c;}}
-      />
-
+ 
          
          </Form>
     

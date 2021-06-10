@@ -8,3 +8,15 @@
     background-color:rgb(248, 232, 233);
 }
 
+#bouttonCroix{
+    width: 50px;
+    margin-bottom: 20px;
+    float:left;
+    border-radius:10px;
+}
+
+#modifChange{
+    margin-top:40px;
+}
+
+
