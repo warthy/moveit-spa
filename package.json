@@ -12,6 +12,7 @@
     "bootstrap": "^4.6.0",
     "bootstrap-icons": "^1.5.0",
     "leaflet": "^1.7.1",
+    "noty": "^3.2.0-beta-deprecated",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",
     "react-calendar": "^3.4.0",
@@ -20,6 +21,7 @@
     "react-places-autocomplete": "^7.3.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
+    "react-toastify": "^7.0.4",
     "react-validation": "^3.0.7",
     "validator": "^13.6.0"
   },

@@ -7,6 +7,10 @@ import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 import ActivitieService from "./service/activities.service";
+import Noty from 'noty';  
+import "../node_modules/noty/lib/noty.css";  
+import "../node_modules/noty/lib/themes/mint.css"; 
+
 
 
 
@@ -97,6 +101,13 @@ export default class AddActivities extends Component {
                 }
                 );
         }
+
+        new Noty({
+            type:"success",
+            layout:"centerRight",
+            text:"Votre activité a bien été créé",
+            timeout:3000
+        }).show();
     }
 
     render(){

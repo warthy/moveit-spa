@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import './Inscription.css'
-//import sexes from './Genre'
+
 import sports from './Sport'
 import arts from './Art'
 import others from './Other'
@@ -8,10 +8,14 @@ import fleche from './images/fleche.png'
 import {Link} from 'react-router-dom'
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+
 import { isEmail } from "validator";
 
 import AuthService from "./service/auth.service";
+
+import Noty from 'noty';  
+import "../node_modules/noty/lib/noty.css";  
+import "../node_modules/noty/lib/themes/mint.css"; 
 
 
 const required = value =>{
@@ -73,6 +77,7 @@ export default class Inscription extends Component {
             this.onChangeUsername=this.onChangeUsername.bind(this);
             this.onChangeLastname=this.onChangeLastname.bind(this);
             this.onChangeFirstname=this.onChangeFirstname.bind(this);
+            this.onChngeDescription=this.onChangeDescription.bind(this);
             this.onChangeBirthdate=this.onChangeBirthdate.bind(this);
             this.onChangeEmail = this.onChangeEmail.bind(this);
             this.onChangeEmailConfirmation = this.onChangeEmailConfirmation.bind(this);
@@ -83,6 +88,7 @@ export default class Inscription extends Component {
                 username:"",
                 lastName:"",
                 firstName:"",
+                description:"",
                 email:"",
                 password:"",
                
@@ -112,6 +118,12 @@ export default class Inscription extends Component {
               this.setState({
                   firstName: e.target.value
               });
+          }
+
+          onChangeDescription=(e)=>{
+            this.setState({
+              description: e.target.value
+            });
           }
 
           onChangeBirthdate(e){
@@ -159,11 +171,12 @@ export default class Inscription extends Component {
               this.form.validateAll();
               console.log(this.form.validateAll());
 
-              if(this.checkBtn.context._errors.length===0){
+           
                   AuthService.register(
                       this.state.username, 
                       this.state.lastName,
                       this.state.firstName,
+                      this.state.description,
                       this.state.email,
                       this.state.password,
                      
@@ -192,7 +205,14 @@ export default class Inscription extends Component {
                             });
                       }
                   );
-              }
+
+                  new Noty({
+                    type:"success",
+                    layout:"centerRight",
+                    text:"Votre compte a bien été créé",
+                    timeout:3000
+                }).show();
+              
           }
         
 
@@ -221,7 +241,7 @@ export default class Inscription extends Component {
         
         >
 
-           {!this.state.successful && (
+     
                <div >
                    <div class="form-row" className="test">
                    <div class="form-group col-md-4">
@@ -399,7 +419,12 @@ export default class Inscription extends Component {
                 <div class="form-group">
                     <label for="description">Description</label>
                     <Input 
-                    type="text" class="form-control"
+                    type = "text"
+                   className="form-control"
+                   name="description"
+                   value={this.state.description}
+                   onChange={this.onChangeDescription}
+                   
                     
                     />
 
@@ -411,32 +436,10 @@ export default class Inscription extends Component {
 
 
                </div>
-           )}
+           
 
-           {this.state.message && (
-               <div>
-
-                    <div className={this.state.successful
-                    ?"alert alert-success"
-                : "alert alert-danger"
-            
-            }
-            role="alert"
-                >
-                    {this.state.message}
-
-
-                </div>
-
-               </div>
-           )}
-           <CheckButton
-           style={{display:"none"}}
-           ref={c=>{
-               this.checkBtn=c;
-           }}
-
-           />
+          
+     
 
 
 

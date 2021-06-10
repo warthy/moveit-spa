@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {Component} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import './Modal.css'
@@ -7,154 +7,154 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import axios from 'axios';
 import ActivitieService from "../service/activities.service";
+import AuthService from '../service/auth.service';
+import Noty from 'noty';  
+import "../../node_modules/noty/lib/noty.css";  
+import "../../node_modules/noty/lib/themes/mint.css"; 
 
 
 
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+const API_URL = "http://localhost:8080/user/";
+const user = JSON.parse(localStorage.getItem('user'));
 
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+export default class SimpleModal extends Component  {
 
-  return {
-    top: `${top}%`,
-    left: `${left}%`,
-    transform: `translate(-${top}%, -${left}%)`,
-  };
-}
+  constructor(props) {
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
+    super(props);
 
-export default function SimpleModal() {
-  const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
-  const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
-  const[userProfil, setUser]=useState();
-  const user = JSON.parse(localStorage.getItem('user'));
-  const[lastName, setLastName] = useState("");
-  const[firstName, setFirstName] = useState("");
-  const[email, setEmail] = useState("");
+    this.submitUpdateInformation=this.submitUpdateInformation.bind(this);
+    this.onChangeDescription=this.onChangeDescription.bind(this);
+    this.onChangeUsername=this.onChangeUsername.bind(this);
 
-  useEffect(()=>{
-    axios.get("http://localhost:8080/user/me", {headers:{
-        Authorization: `Bearer  ${user}`,
-        'Content-Type': 'application/json;charset=UTF-8',
-        'Access-Control-Allow-Origin' : '*',
-        'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    },
-})
+    this.state = {
+      currentUser:[],
+      username:"",
+      description:"",
+    }
+  }
+  componentDidMount() {
+    this.getCurrentUser();
+  }
 
-.then(({data})=>{
-    setUser(data);
-    
-})
-})
+  onChangeDescription(e){
+    this.setState({
+      description:e.target.value
+    });
+  }
 
-const submitUpdateInformation=(evt)=>{
-    evt.preventDefault();
+  onChangeUsername(e){
+    this.setState({
+      username:e.target.value
+    });
+  }
+
+  submitUpdateInformation(e){
+    e.preventDefault();
+
     this.form.validateAll();
 
-    ActivitieService.editUser(
-        lastName,
-        firstName,
-        email
-        )
+   if(this.state.description.length>0 && this.state.username.length>0){
+
+   
+    AuthService.editUser(
+      this.state.username, 
+      this.state.description
+    )
+    .then(response =>{
+      return response
+
+   
+  },
+  error =>{
+      console.log(error)
+  }
+    )
+
+   }
+
+   new Noty({
+    type:"success",
+    layout:"centerRight",
+    text:"Profil modifié aevc succès",
+    timeout:3000
+}).show();
+     
+  }
+ 
+
+  async getCurrentUser() {
+    const response = axios.get(API_URL + "me",{ headers:{
+      Authorization: `Bearer  ${user}`,
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    },
+   }) 
+   
+const {data} = await response;
+this.setState({currentUser: data})
+this.setState({
+  username:data.username, 
+  description:data.description
+})
+
 }
 
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+      render() {
 
-  const body = (
-    <div id="modal" style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Edition de votre profil</h2>
+        return(
+      
+
+
+
+    <div
+    style={{
+      opacity: this.props.show ? '1': '0'
+    }}
+    >
+
     
-      <Form onSubmit={submitUpdateInformation}
+      <Form 
+      onSubmit={this.submitUpdateInformation}
+        ref={c=>{
+          this.form=c;
+      }}
+      
 
       >
+        
           <div >
-              <label className="col-4 col-form-label" for ="profile-email">Email</label>
+          <button onClick={this.props.hideModal} >X</button>
+              <label className="col-4 col-form-label" for ="profile-email">Usernamae</label>
               <Input
               className="form-control col-8"
+              value={this.state.currentUser.username}
+              onChange={this.onChangeUsername}
+              />
+          </div>
+
+          <div >
+              <label className="col-4 col-form-label" for ="profile-email">Description</label>
+              <Input
+              className="form-control col-8"
+              value={this.state.currentUser.description}
+              onChange={this.onChangeDescription}
+              />
+          </div>
           
-              onChange={e=>this.setEmail(e.target.value)}
-              />
-          </div>
-          <div >
-              <label className="col-4 col-form-label" for ="profile-prenom">Prenom</label>
-              <Input
-              className="form-control col-8"
-            
-              onChange={e=> setFirstName(e.target.value)}
-              />
-
-          </div>
-
-          <div >
-              <label className="col-4 col-form-label" for ="profile-nom">Nom</label>
-              <Input
-              className="form-control col-8"
-          
-              onChange={e=>this.setLastname(e.target.value)}
-              />
-
-          </div>
-
-          <div >
-              <label className="col-4 col-form-label" for ="profile-prenom">Mot de passe</label>
-              <Input
-              className="form-control col-8"
-           
-              />
-
-          </div>
-
-          <div >
-              <label className="col-4 col-form-label" for ="profile-prenom">Confirmer Mot de passe</label>
-              <Input
-              className="form-control col-8"
-              />
-
-          </div>
+    <button className="btn btn-primary">Changer ses modifs</button>
 
       </Form>
+
+   
       </div>
    
-  );
+        )
 
-  return (
-    <div>
-        <button id="bouton" type="button" class="btn btn-warning" onClick={handleOpen}>   Modifier son profil     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-  <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-</svg></button>
-        <i class="bi bi-pencil"></i>
+      }
 
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {body}
-      </Modal>
-    </div>
-  );
-}
+    }

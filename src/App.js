@@ -9,6 +9,7 @@ import HomeLogged from './HomeLogged'
 import EmploiDuTemps from './EmploiDuTemps'
 import ActivityUser from './ActivityUser'
 import ActivityId from './ActivityId';
+import UserId from './UserID';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -49,6 +50,9 @@ function App() {
       <Route path="/emploi" render={()=>(token ? (<Route component={EmploiDuTemps} />):
       (<Redirect to='/' />))}/>
       <Route path="/activity/:id" component={ActivityId} />
+
+      <Route path="/user/:id" component={UserId} />
+      <Route path="/friend/:id" component={UserId} />
 
 
 

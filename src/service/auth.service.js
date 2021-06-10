@@ -27,11 +27,12 @@ class AuthService {
     }
     
 
-    register(username, lastName, firstName, email, password,){
+    register(username, lastName, firstName, description, email, password,){
         return axios.post(API_URL + "register",{
                 username,
                 lastName,
                 firstName,
+                description,
                 email,
                 password,
 
@@ -66,14 +67,13 @@ class AuthService {
        
     }
 
-    editUser(lastname, firstname, email){
+    editUser(username, description){
         return axios({
             method: 'POST',
             url: "http://localhost:8080/user/edit",
             data:{
-                lastname,
-                firstname,
-                email
+               username,
+               description
             },
 
             headers:{
