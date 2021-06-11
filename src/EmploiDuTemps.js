@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Component} from 'react';
 import axios from 'axios';
 import './EmploiDuTemps.css'
 import Calendar from 'react-calendar';
@@ -39,11 +39,11 @@ export default class EmploiDuTemps extends Component {
        console.log(this.state.dateActivity)
 
        for( var k=0; k<this.state.activities.length;k++){
-            if(this.state.date.toLocaleDateString() == this.state.dateActivity[k]){
+            if(this.state.date.toLocaleDateString() === this.state.dateActivity[k]){
                 this.setState({displayActivity:true})
                 console.log(this.state.displayActivity)
                 alert("yo")
-        }else if(this.state.date.toLocaleDateString() != this.state.dateActivity[k]){
+        }else if(this.state.date.toLocaleDateString() !== this.state.dateActivity[k]){
             this.setState({displayActivity:false})
         }
 
@@ -86,7 +86,7 @@ export default class EmploiDuTemps extends Component {
      for(var j=0; j<data[i].participants.length; j++) {
   
 
-         if(data[i].participants[j].id==this.state.currentUser.id){
+         if(data[i].participants[j].id===this.state.currentUser.id){
            
             console.log(data[i])
             test.push(data[i])
@@ -129,7 +129,7 @@ export default class EmploiDuTemps extends Component {
         const {activities}=this.state
         let test;
 
-        if(this.state.displayActivity==true){
+        if(this.state.displayActivity===true){
             test=   <ul >
             {activities.map(activity=>(
             <li key={activity.id}>{activity.name} le {activity.start.split('T00:00:00.000+00:00')} <hr></hr>  </li>

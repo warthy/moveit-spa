@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Noty from 'noty';  
-import "../node_modules/noty/lib/noty.css";  
-import "../node_modules/noty/lib/themes/mint.css"; 
+
 
 ReactDOM.render(
   <React.StrictMode>

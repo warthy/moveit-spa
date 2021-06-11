@@ -3,7 +3,7 @@ import './ActivityUser.css'
 import axios from "axios";
 import croix from './images/croix.png';
 import edit from './images/edit.png';
-import message from './images/message.png';
+
 import ActivitiesService from './service/activities.service'
 
 const URL = "http://localhost:8080/user/me";
@@ -98,7 +98,7 @@ export default class ActivityUser extends Component {
 
     for(var i = 0; i<data.length; i++){
 
-     if(this.state.currentUser.id == data[i].author.id){
+     if(this.state.currentUser.id === data[i].author.id){
          console.log(this.state.currentUser.id)
          console.log(data[i])
          test.push(data[i])

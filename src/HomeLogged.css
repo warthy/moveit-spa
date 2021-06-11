@@ -33,3 +33,13 @@ li{
     margin-right: 50px;
     background-color:rgb(248, 232, 233);
 }
+
+.boutonPagination{
+    width:50px;
+    height:50px;
+}
+
+.pageNumbers{
+    display:flex;
+    justify-content: space-around;
+}

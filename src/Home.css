@@ -10,8 +10,8 @@ button{
 
 }
 #button1{
-    border:1px solid rgb(173, 26, 41);
-    background-color:rgb(173, 26, 41);
+    border:1px solid rgb(205, 50, 50);
+    background-color:rgb(205, 50, 50);
     display:block;
     margin:auto;
     
@@ -86,4 +86,13 @@ img{
     margin-bottom:10%;
 
  
+}
+
+#creerCompte, #alreadyAccount{
+    color:black;
+}
+
+#alreadyAccount{
+
+    margin-top:30px;
 }

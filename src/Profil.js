@@ -2,11 +2,16 @@ import React, { Component } from "react";
 import Header from "./Header.js";
 import "./Profil.css";
 import userProfil from "./images/PictoLogoV1.png";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
 
 import axios from "axios";
 import { Modal } from "react-responsive-modal";
 import "react-responsive-modal/styles.css";
-
+import AuthService from './service/auth.service';
+import Noty from 'noty';  
+import "../node_modules/noty/lib/noty.css";  
+import "../node_modules/noty/lib/themes/mint.css"; 
 const API_URL2 = "http://localhost:8080/user/";
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -15,16 +20,68 @@ export default class Profil extends Component {
   constructor(props) {
     super(props);
 
+    this.submitUpdateInformation=this.submitUpdateInformation.bind(this);
+    this.onChangeDescription=this.onChangeDescription.bind(this);
+    this.onChangeUsername=this.onChangeUsername.bind(this);
+
     this.state = {
       currentUser: [],
       users: [],
       show: false,
       openModalFriend: false,
+      openModalEdit:false,
+      username:"",
+      description:"",
     };
   }
   componentDidMount() {
     this.getData();
     this.getAllUser();
+  }
+
+  onChangeDescription(e){
+    this.setState({
+      description:e.target.value
+    });
+  }
+
+  onChangeUsername(e){
+    this.setState({
+      username:e.target.value
+    });
+  }
+
+  submitUpdateInformation(e){
+    e.preventDefault();
+
+    this.form.validateAll();
+
+   if(this.state.description.length>0 && this.state.username.length>0){
+
+   
+    AuthService.editUser(
+      this.state.username, 
+      this.state.description
+    )
+    .then(response =>{
+      return response
+
+   
+  },
+  error =>{
+      console.log(error)
+  }
+    )
+
+   }
+
+   new Noty({
+    type:"success",
+    layout:"centerRight",
+    text:"Profil modifié aevc succès",
+    timeout:3000
+}).show();
+     
   }
 
   rand() {
@@ -43,6 +100,7 @@ export default class Profil extends Component {
   }
 
   showModal = () => {
+    alert("yo")
     this.setState({
       show: true,
     });
@@ -66,6 +124,19 @@ export default class Profil extends Component {
       })
   }
 
+  showModalEdit=(e)=>{
+    e.preventDefault();
+    this.setState({
+      openModalEdit: true,
+    })
+  }
+
+  onCloseModalEdit=()=>{
+    this.setState({
+      openModalEdit: false
+    })
+  }
+
   async getData() {
     const response = axios.get(API_URL2 + "me", {
       headers: {
@@ -78,6 +149,10 @@ export default class Profil extends Component {
 
     const { data } = await response;
     this.setState({ currentUser: data });
+    this.setState({
+      username:data.username, 
+      description:data.description
+    })
   }
 
   async getAllUser() {
@@ -98,7 +173,8 @@ export default class Profil extends Component {
     const { users } = this.state;
     let test;
     modalStyle = this.getModalStyle();
-    if (this.state.show == true) {
+    if (this.state.show === true) {
+      alert("fh")
       test = (
         <Modal
           style={modalStyle}
@@ -114,7 +190,7 @@ export default class Profil extends Component {
 
         <div id="Partit_haute">
           <div>
-            <img src={userProfil} alt="photo de profil" />
+            <img src={userProfil} alt="" />
           </div>
 
           <div>
@@ -162,7 +238,7 @@ export default class Profil extends Component {
   <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
 </svg>  Ajouter des amis</button>
 
-<button type="button" class="btn btn-warning" onClick={this.showModal}>
+<button type="button" class="btn btn-warning" onClick={this.showModalEdit}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -178,6 +254,46 @@ export default class Profil extends Component {
 
         </div>
 
+
+        <Modal open={this.state.openModalEdit} onClose={this.onCloseModalEdit}>
+        <div>
+
+    
+      <Form 
+      onSubmit={this.submitUpdateInformation}
+        ref={c=>{
+          this.form=c;
+      }}
+      
+
+      >
+        
+          <div >
+          <button type="button" class="btn btn-danger" id="bouttonCroix" >X</button><br></br>
+              <label className="col-4 col-form-label" for ="profile-email">Usernamae</label>
+              <Input
+              className="form-control"
+              value={this.state.currentUser.username}
+              onChange={this.onChangeUsername}
+              />
+          </div>
+
+          <div >
+              <label className="col-4 col-form-label" for ="profile-email">Description</label>
+              <Input
+              className="form-control"
+              value={this.state.currentUser.description}
+              onChange={this.onChangeDescription}
+              />
+          </div>
+          
+    <button id="modifChange" className="btn btn-primary">Changer ses modifs</button>
+
+      </Form>
+
+   
+      </div>
+        </Modal>
 
         
         <Modal open={this.state.openModalFriend} onClose={this.onCloseModalFriend}>

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Header from'./Header.js'
 import './AddActivities.css'
+import visibilities from './Visibility'
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -16,6 +17,7 @@ import "../node_modules/noty/lib/themes/mint.css";
 
 
 
+
 export default class AddActivities extends Component {
 
     constructor(props){
@@ -25,12 +27,15 @@ export default class AddActivities extends Component {
         this.onChangeLocation=this.onChangeLocation.bind(this);
         this.onChangeName=this.onChangeName.bind(this);
         this.onChangeStart=this.onChangeStart.bind(this);
+        this.onChangeVisibility=this.onChangeVisibility.bind(this);
 
         this.state={
             description:"",
             location:"",
             name:"",
             start:"",
+            visibility:"",
+
             successful:"",
             message:"",
         };
@@ -50,6 +55,7 @@ export default class AddActivities extends Component {
     }
 
     onChangeName(e){
+       
         this.setState({
             name:e.target.value
         });
@@ -62,6 +68,12 @@ export default class AddActivities extends Component {
         });
     }
 
+    onChangeVisibility(e){
+      
+        this.setState({
+            visibility:e.target.value
+        });
+    }
     handleActivities(e){
 
         e.preventDefault();
@@ -79,7 +91,8 @@ export default class AddActivities extends Component {
                 this.state.description,
                 this.state.location,
                 this.state.name,
-                this.state.start
+                this.state.start,
+                this.state.visibility
                 ).then(response =>{
                     this.setState({
                         message:response.data.message,
@@ -154,12 +167,21 @@ export default class AddActivities extends Component {
 
         <div class="form-row" className="test">
         <div class="form-group col-md-4">
-        <label for="password">Type </label>
-        <Input 
-        type="text" 
-        name="password" 
+            <labal for="visibility">Visibility</labal>
+        <select
+        name="visibility"
         class="form-control"
-        id="password" />
+        value={this.state.visibility}
+                onChange={this.onChangeVisibility}
+        
+        >
+            <option key="" ></option>
+            {visibilities.map(visibility=>(
+                <option key={visibility} >{visibility}</option>
+            ))}
+
+
+        </select>
        
         </div>
  

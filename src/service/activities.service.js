@@ -7,7 +7,7 @@ const user = JSON.parse(localStorage.getItem('user'));
 class ActivitieService{
 
     
-    createActivitie(description, location, name, start){
+    createActivitie(description, location, name, start, visibility){
         
         
         return axios({
@@ -17,7 +17,8 @@ class ActivitieService{
             description,
             name,
             location,
-            start
+            start,
+            visibility
 
         },
         headers:{
@@ -31,6 +32,7 @@ class ActivitieService{
 }
 
         createParticipant(activity_id){
+            
           
             return axios({
                 method: 'POST',

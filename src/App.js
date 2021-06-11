@@ -10,7 +10,8 @@ import EmploiDuTemps from './EmploiDuTemps'
 import ActivityUser from './ActivityUser'
 import ActivityId from './ActivityId';
 import UserId from './UserID';
-import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
+import Page404 from './Page404';
+import {BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import AuthService from "./service/auth.service";
@@ -31,6 +32,8 @@ function App() {
     <div className="App">
     
       <Router>
+
+        <Switch>
      
       <Route path="/" exact component={Home}/>
       <Route path="/connexion" exact component={Connexion}/>
@@ -39,13 +42,13 @@ function App() {
       (<Redirect to='/' />))}/>
       <Route path="/profil" render={()=>(token ? (<Route component={Profil} />) :
       (<Redirect to='/' />))}/>
-
+  <Route path="/home/:id" exact component={HomeLogged} />
       <Route  path="/Home" render={()=>(token ? (<Route component={HomeLogged} />) :
       (<Redirect to='/' />))}/>
 
-<Route path="/activityUser" render ={()=>(token ? (<Route component={ActivityUser} />):
-(<Redirect to='/' />))}/>
-      <Route path="/home/:id" exact component={HomeLogged} />
+      <Route path="/activityUser" render ={()=>(token ? (<Route component={ActivityUser} />):
+      (<Redirect to='/' />))}/>
+      
     
       <Route path="/emploi" render={()=>(token ? (<Route component={EmploiDuTemps} />):
       (<Redirect to='/' />))}/>
@@ -53,9 +56,10 @@ function App() {
 
       <Route path="/user/:id" component={UserId} />
       <Route path="/friend/:id" component={UserId} />
+      <Route component={Page404} />
 
 
-
+      </Switch>
       </Router>
 
      </div>

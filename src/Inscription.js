@@ -4,7 +4,7 @@ import './Inscription.css'
 import sports from './Sport'
 import arts from './Art'
 import others from './Other'
-import fleche from './images/fleche.png'
+
 import {Link} from 'react-router-dom'
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -228,7 +228,9 @@ export default class Inscription extends Component {
     return(
         <div className="Inscription">
               <Link to="/">
-            <img id="fleche" src={fleche} alt="fleche" />
+              <svg id="fleche" xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-90deg-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708l-4-4z"/>
+</svg>
 
             </Link>
         <h1>Inscrivez-vous</h1>
@@ -400,6 +402,7 @@ export default class Inscription extends Component {
                 <select
                 name="arts"
                 class="form-control"
+                
                 >
                     <option key=""></option>
                     {arts.map(art=>(
@@ -444,7 +447,7 @@ export default class Inscription extends Component {
 
 
          
-            <a href="/">Mot de passe oublié ?</a>
+          
           
       </Form>
 
