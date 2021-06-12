@@ -52,7 +52,7 @@ class ActivitieService{
         }
 
         deleteActivity(activity_id){
-            alert("yo")
+         
             return axios({
                 method: 'DELETE',
                 url: API_URL+activity_id,

@@ -14,7 +14,7 @@ import "../node_modules/noty/lib/noty.css";
 import "../node_modules/noty/lib/themes/mint.css"; 
 const API_URL2 = "http://localhost:8080/user/";
 const user = JSON.parse(localStorage.getItem("user"));
-
+const pages=[];
 let modalStyle;
 export default class Profil extends Component {
   constructor(props) {
@@ -32,6 +32,11 @@ export default class Profil extends Component {
       openModalEdit:false,
       username:"",
       description:"",
+      currentPage:1,
+      itemsPerPage:3,
+      pageNumberLimit:10,
+      maxPageNumberLimit:10,
+      minPageNumberLimit:0,
     };
   }
   componentDidMount() {
@@ -84,33 +89,73 @@ export default class Profil extends Component {
      
   }
 
-  rand() {
-    return Math.round(Math.random() * 20) - 10;
-  }
-
-  getModalStyle() {
-    const top = 50 + this.rand();
-    const left = 50 + this.rand();
-
-    return {
-      top: `${top}%`,
-      left: `${left}%`,
-      transform: `translate(-${top}%, -${left}%)`,
-    };
-  }
-
-  showModal = () => {
-    alert("yo")
+  handleClick =(event) =>{
     this.setState({
-      show: true,
-    });
-  };
+        currentPage:Number(event.target.id)
+    })
+}
 
-  hideModal = () => {
+ renderPagesNumbers = pages.map((number) =>{
+     alert("yo")
+    if(number<this.state.maxPageNumberLimit +1 && number > this.state.minPageNumberLimit){
+        return (
+            <li
+            key={number}
+            id={number}
+            onClick={this.handleClick}
+            className={this.state.currentPage ==number ? "active": null}
+            >{number}
+            </li>
+        );
+    }else{
+        return null;
+    }
+});
+
+
+  handleNextbtn = ()=>{
     this.setState({
-      show: false,
-    });
-  };
+        currentPage:this.state.currentPage+1
+});
+
+if((this.state.currentPage+1)% this.state.pageNumberLimit==0){
+    this.setState({maxPageNumberLimit: this.state.maxPageNumberLimit+ this.state.pageNumberLimit})
+    this.setState({minPageNumberLimit:this.state.minPageNumberLimit+this.state.pageNumberLimit})
+}
+};
+
+hanldePrevbtn=()=>{
+    this.setState({currentPage:this.state.currentPage-1
+
+});
+    if((this.state.currentPage-1)% this.state.pageNumberLimit==0){
+        this.setState({maxPageNumberLimit: this.state.maxPageNumberLimit- this.state.pageNumberLimit})
+        this.setState({minPageNumberLimit:this.state.minPageNumberLimit-this.state.pageNumberLimit})
+    }
+}
+
+handleLoadMore=()=>{
+    this.setState({itemsPerPage: this.state.itemsPerPage+5});
+}
+
+renderUser=(users)=>{
+  return (
+    <ul class="list-group">
+            {users.map((user) => (
+              <li class="list-group-item" key={user.id}>
+                {user.firstName} {user.lastName}
+
+                <a href={"/user/" + user.id} onClick={this.getOneUser}><button id="seeProfil" type="button" class="btn btn-secondary">Voir profil</button>
+                
+                </a>
+              </li>
+            ))}
+          </ul>
+  )
+}
+
+
+ 
   showModalAmis = (e) => {
     e.preventDefault();
     this.setState({
@@ -170,19 +215,26 @@ export default class Profil extends Component {
   }
 
   render() {
-    const { users } = this.state;
+    const { users,currentPage, itemsPerPage, maxPageNumberLimit,minPageNumberLimit } = this.state;
     let test;
-    modalStyle = this.getModalStyle();
-    if (this.state.show === true) {
-      alert("fh")
-      test = (
-        <Modal
-          style={modalStyle}
-          show={this.state.show}
-          hideModal={this.hideModal}
-        />
-      );
+   
+    for (let i = 1; i <= Math.ceil(users.length/itemsPerPage); i++){
+        pages.push(i);
     }
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = users.slice(indexOfFirstItem, indexOfLastItem)
+
+    let pageIncrementBtn = null;
+    if(pages.length>maxPageNumberLimit){
+        pageIncrementBtn = <li onClick={this.handleNextbtn}> </li>;
+    }
+
+    let pageDecrementBtn = null;
+    if(minPageNumberLimit >=1){
+      pageDecrementBtn = <li onClick={this.hanldePrevbtn}> </li>;
+    }
+ 
 
     return (
       <div style={{ zIndex: 1 }} className="Profil">
@@ -223,8 +275,7 @@ export default class Profil extends Component {
           <br></br>
           {test}
           <p>
-            dskjf qdf qsfkf qkfgopk qokspfokqdg qokFDK Qokgkq qkofgk QOSKFQKDGF
-            oqkfgKKQG KQSDKOF GSQDK GKFKG KQKKkf,d{" "}
+            {this.state.currentUser.description}
           </p>
         </div>
 
@@ -300,6 +351,7 @@ export default class Profil extends Component {
         <div>
             
             <h1>Utilisateur de l'application</h1>
+             
                 <div class="input-group rounded">
                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                     aria-describedby="search-addon" />
@@ -309,17 +361,32 @@ export default class Profil extends Component {
                             </svg>
                         </span>
                 </div>
-          <ul class="list-group">
-            {users.map((user) => (
-              <li class="list-group-item" key={user.id}>
-                {user.firstName} {user.lastName}
+                {this.renderUser(currentItems)}
+                <ul className="pageNumbers">
+                    <li>
+                        <button className="btn btn-primary boutonPagination"
+                        onClick={this.hanldePrevbtn}
+                        disabled={currentPage==pages[0] ? true: false}
+                        ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                      </svg></button>
+                    </li>
 
-                <a href={"/user/" + user.id} onClick={this.getOneUser}><button id="seeProfil" type="button" class="btn btn-secondary">Voir profil</button>
-                
-                </a>
-              </li>
-            ))}
-          </ul>
+                    {pageDecrementBtn}
+                    {this.renderPagesNumbers}
+                    {pageIncrementBtn}
+
+                    <li>
+                        <button className="btn btn-primary boutonPagination"
+                        onClick={this.handleNextbtn}
+                        disabled={currentPage==pages[pages.length-1] ? true : false}
+                        ><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                      </svg></button>
+                    </li>
+
+                </ul>
+       
         </div>
 
 

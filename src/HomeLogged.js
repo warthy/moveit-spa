@@ -155,7 +155,7 @@ export default class HomeLogged extends Component {
                 {activities.map((activitie, index)=>{
                     return <li class="list-group-item" key={index}><div className="labelQuestion"> <p>QUI ?</p> <p>QUOI ?</p> <p>QUAND ?</p> <p>OU ?</p> </div><br />
                     <div className="labelQuestion"><p>{activitie.author.username}</p> <p>{activitie.name}</p> <p>{activitie.start.split('T00:00:00.000+00:00')}</p> <p>{activitie.location}</p> </div> <br />
-                    <div className="labelQuestion">  <img id="croix" src={croix} alt="croix" class="rounded" />    <a href={"/home/"+activitie.id}  onClick={this.getActivity}> <img id="coeur" src={coeur} alt="coeur" /></a> <a href={"/activity/"+activitie.id} > <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <div className="labelQuestion">  <img id="croix" src={croix} alt="croix" class="rounded" />    <a href={"/home/"+activitie.id}  onClick={this.getActivity}> <img id="coeur" src={coeur} alt="coeur" /></a> <a className="lien" href={"/activity/"+activitie.id} > <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
   <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 </svg> </a> </div>
                     
@@ -211,6 +211,9 @@ export default class HomeLogged extends Component {
                 <Header />
                 <h1>Trouvez une activités</h1>
 
+               <a className="lien" href="/addActivities"> <svg id="plus" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg></a>
                 {this.renderActivities(currentItems)}
 
                 <ul className="pageNumbers">

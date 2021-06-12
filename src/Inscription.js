@@ -11,12 +11,14 @@ import Input from "react-validation/build/input";
 
 import { isEmail } from "validator";
 
+import axios from "axios";
 import AuthService from "./service/auth.service";
 
 import Noty from 'noty';  
 import "../node_modules/noty/lib/noty.css";  
 import "../node_modules/noty/lib/themes/mint.css"; 
 
+const user = JSON.parse(localStorage.getItem('user'));
 
 const required = value =>{
     if (!value){
@@ -83,8 +85,12 @@ export default class Inscription extends Component {
             this.onChangeEmailConfirmation = this.onChangeEmailConfirmation.bind(this);
             this.onChangePassword = this.onChangePassword.bind(this);
             this.onChangePasswordConfirmation = this.onChangePasswordConfirmation.bind(this);
+            this.onChangeSports = this.onChangeSports.bind(this);
+            this.onChangeArts=this.onChangeArts.bind(this);
+            this.onChangeOthers=this.onChangeOthers.bind(this);
 
             this.state={
+              interest:[],
                 username:"",
                 lastName:"",
                 firstName:"",
@@ -97,9 +103,30 @@ export default class Inscription extends Component {
                 emailConfirmation:"",
                 
                 passwordConfirmation:"",
+                sports:"",
+                arts:"",
+                others:"",
                 successful:false,
                 message:""
             };
+        }
+
+        componentDidMount(){
+          this.getAllInterests();
+        }
+
+        async getAllInterests(){
+          const response = axios.get("http://localhost:8080/interests", {headers:{
+            
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+          },
+        })
+
+        const {data} = await response;
+        this.setState({interests:data})
+          console.log(this.state.interests)
         }
 
         onChangeUsername(e) {
@@ -153,6 +180,24 @@ export default class Inscription extends Component {
           onChangePasswordConfirmation(e) {
             this.setState({
               passwordConfirmation: e.target.value
+            });
+          }
+
+          onChangeSports(e) {
+            this.setState({
+              sports: e.target.value
+            });
+          }
+
+          onChangeArts(e) {
+            this.setState({
+              arts: e.target.value
+            });
+          }
+
+          onChangeOthers(e){
+            this.setState({
+              others: e.target.value
             });
           }
 
@@ -372,6 +417,8 @@ export default class Inscription extends Component {
                 <select
                 name="sports"
                 class="form-control"
+                value={this.state.sports}
+                onChange={this.onChangeSports}
                 >
                     <option key=""></option>
                     {sports.map(sport=>(
@@ -387,6 +434,8 @@ export default class Inscription extends Component {
                 <select
                 name="others"
                 class="form-control"
+                value={this.state.others}
+                onChange={this.onChangeOthers}
                 >
                     <option key=""></option>
                     {others.map(other=>(
@@ -402,6 +451,8 @@ export default class Inscription extends Component {
                 <select
                 name="arts"
                 class="form-control"
+                value={this.state.arts}
+                onChange={this.onChangeArts}
                 
                 >
                     <option key=""></option>

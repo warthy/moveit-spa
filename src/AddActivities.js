@@ -6,6 +6,7 @@ import visibilities from './Visibility'
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
+import axios from "axios";
 
 import ActivitieService from "./service/activities.service";
 import Noty from 'noty';  
@@ -17,7 +18,7 @@ import "../node_modules/noty/lib/themes/mint.css";
 
 
 
-
+const user = JSON.parse(localStorage.getItem("user"));
 export default class AddActivities extends Component {
 
     constructor(props){
@@ -38,7 +39,27 @@ export default class AddActivities extends Component {
 
             successful:"",
             message:"",
+            currentUser:[],
         };
+
+    }
+    componentDidMount(){
+        this.getCurrentUser();
+    }
+
+    async getCurrentUser(){
+        const response = axios.get("http://localhost:8080/user/me", {headers:{
+            Authorization: `Bearer  ${user}`,
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        },
+    });
+
+    const {data} = await response;
+    this.setState({currentUser:data});
+    console.log(this.state.currentUser)
+
 
     }
 
@@ -152,14 +173,16 @@ export default class AddActivities extends Component {
         id="lastname" />
         </div>
 
-     
+      
         <div class="form-group col-md-4">
         <label for="email">Organisateur</label>
         <input 
+        Value={this.state.currentUser.username}
         type="text" 
         name="email"
         class="form-control"
-        id="email"></input>
+        id="email"
+        disabled></input>
         
         </div>
         </div>
