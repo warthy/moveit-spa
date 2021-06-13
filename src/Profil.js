@@ -23,13 +23,18 @@ export default class Profil extends Component {
     this.submitUpdateInformation=this.submitUpdateInformation.bind(this);
     this.onChangeDescription=this.onChangeDescription.bind(this);
     this.onChangeUsername=this.onChangeUsername.bind(this);
+    
 
     this.state = {
+      showMatch:false,
+      matching:[],
       currentUser: [],
+      friends:[],
       users: [],
       show: false,
       openModalFriend: false,
       openModalEdit:false,
+      openModalMyFriend:false,
       username:"",
       description:"",
       currentPage:1,
@@ -37,12 +42,48 @@ export default class Profil extends Component {
       pageNumberLimit:10,
       maxPageNumberLimit:10,
       minPageNumberLimit:0,
+      listUser:[3,10],
+      minimumDuration:1000,
+      from:"2021-06-06",
+      to:"2021-10-06"
+      
+      
     };
   }
   componentDidMount() {
     this.getData();
     this.getAllUser();
+    this.getFriends();
+    this.matchtemps()
   }
+
+
+  
+
+  matchtemps(){
+    AuthService.mathEmploiDutemps(
+      this.state.listUser,
+      this.state.minimumDuration,
+      this.state.from,
+      this.state.to
+    )
+    .then(
+      response =>{
+        console.log(response.data)
+        this.setState({
+          matching: response.data
+        })
+        console.log(this.state.matching)
+      },
+      error=>{
+        console.log(error)
+      }
+  
+    )
+   
+  }
+
+
 
   onChangeDescription(e){
     this.setState({
@@ -96,7 +137,7 @@ export default class Profil extends Component {
 }
 
  renderPagesNumbers = pages.map((number) =>{
-     alert("yo")
+    
     if(number<this.state.maxPageNumberLimit +1 && number > this.state.minPageNumberLimit){
         return (
             <li
@@ -153,6 +194,18 @@ renderUser=(users)=>{
           </ul>
   )
 }
+showModalMyFriends=(e)=>{
+  e.preventDefault();
+  this.setState({
+    openModalMyFriend: true,
+  });
+};
+
+onCloseModalMyFriend=()=>{
+  this.setState({
+    openModalMyFriend: false
+  })
+}
 
 
  
@@ -176,6 +229,13 @@ renderUser=(users)=>{
     })
   }
 
+  match=(e)=>{
+    e.preventDefault();
+    this.setState({
+      showMatch:true
+    })
+  }
+
   onCloseModalEdit=()=>{
     this.setState({
       openModalEdit: false
@@ -183,6 +243,7 @@ renderUser=(users)=>{
   }
 
   async getData() {
+  
     const response = axios.get(API_URL2 + "me", {
       headers: {
         Authorization: `Bearer  ${user}`,
@@ -200,6 +261,19 @@ renderUser=(users)=>{
     })
   }
 
+  async getFriends(){
+    
+    const response = axios.get("http://localhost:8080/user/friend",{headers:{
+      Authorization: `Bearer  ${user}`,
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Access-Control-Allow-Origin' : '*',
+      'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    },
+  })
+  const {data} = await response;
+  this.setState({friends: data});
+  }
+
   async getAllUser() {
     const response = axios.get("http://localhost:8080/user", {
       headers: {
@@ -213,6 +287,13 @@ renderUser=(users)=>{
     const { data } = await response;
     this.setState({ users: data });
   }
+
+
+  
+  
+
+
+
 
   render() {
     const { users,currentPage, itemsPerPage, maxPageNumberLimit,minPageNumberLimit } = this.state;
@@ -234,6 +315,11 @@ renderUser=(users)=>{
     if(minPageNumberLimit >=1){
       pageDecrementBtn = <li onClick={this.hanldePrevbtn}> </li>;
     }
+
+    let displayResult;
+    if(this.state.showMatch===true){
+        displayResult=   this.state.matching
+    }
  
 
     return (
@@ -241,8 +327,11 @@ renderUser=(users)=>{
         <Header />
 
         <div id="Partit_haute">
-          <div>
-            <img src={userProfil} alt="" />
+        <div className="iconPerson">
+        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="black"
+                   className="bi bi-person-fill" viewBox="0 0 16 16">
+                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              </svg>
           </div>
 
           <div>
@@ -254,42 +343,55 @@ renderUser=(users)=>{
           </div>
 
           <div>
-            <p className="infoPersonn">{this.state.currentUser.username}</p>
+         
 
             <p className="infoPersonn">{this.state.currentUser.email}</p>
 
-            <p className="infoPersonn">Lieu de la personne</p>
+           
           </div>
         </div>
 
-        <div id="secondInfoProfil">
-          <p>
-            <span>Centres d'intéret : </span>dkgng dqgkdgk qsodkgkdg qkosgkqdg
-            qkgkgd
+        <div className="d-flex flex-column">
+        <div className="p-2" id="secondInfoProfil">
+        <p className="centresInteret">
+        <h5 className="centresInteretTitle">Centres d'intérêt : </h5>
+            <p className="centresInteret">
+                {this.state.currentUser.intests}
+            </p>
           </p>
         </div>
 
-        <div id="troisiemeInfoProfil">
-          <h3>Description</h3>
+        <div className="p-2" id="troisiemeInfoProfil">
+          <h5 className="descriptionTitle">Description</h5>
           <br></br>
           <br></br>
           {test}
-          <p>
+          <p className="description">
             {this.state.currentUser.description}
           </p>
         </div>
+        </div>
 
-        <a href="/activityUser">Voir mes activités</a>
+        <div id="buttonProfil">  
+     
 
        
 
      <div id="buttonProfil">
-        <button type="button" class="btn btn-dark" onClick={this.showModalAmis}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+     <button id="
+     " type="button" class="btn btn-dark" href="/activityUser">  <a href="/activityUser">Voir mes activités</a></button> 
+        <button className="test"type="button" class="btn btn-dark" onClick={this.showModalAmis}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
   <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
   <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
 </svg>  Ajouter des amis</button>
 
-<button type="button" class="btn btn-warning" onClick={this.showModalEdit}>
+     <div id="buttonProfil">
+        <button className="test" type="button" class="btn btn-dark" onClick={this.showModalMyFriends}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+  <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+  <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+</svg>  Voir ses amis</button>
+
+<button className="test" type="button" class="btn btn-warning" onClick={this.showModalEdit}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -303,14 +405,22 @@ renderUser=(users)=>{
           Editer son profil
         </button>
 
-        </div>
+       </div>
 
 
-        <Modal open={this.state.openModalEdit} onClose={this.onCloseModalEdit}>
+
+
+       
+        <button className="test" id="matchEmploiDutemps" onClick={this.match} class="btn btn-dark">Matcher les emploi du temps qui sont dans la bdd</button>
+        <div id="reusltatMatchig">
+        {displayResult}
+      </div>
+
+        <Modal open={this.state.openModalEdit} onClose={this.onCloseModalEdit} >
         <div>
 
     
-      <Form 
+      <Form id="modalEdit"
       onSubmit={this.submitUpdateInformation}
         ref={c=>{
           this.form=c;
@@ -320,8 +430,8 @@ renderUser=(users)=>{
       >
         
           <div >
-          <button type="button" class="btn btn-danger" id="bouttonCroix" >X</button><br></br>
-              <label className="col-4 col-form-label" for ="profile-email">Usernamae</label>
+      
+              <label className="col-8 col-form-label" for ="profile-email">Usernamae</label>
               <Input
               className="form-control"
               value={this.state.currentUser.username}
@@ -330,7 +440,7 @@ renderUser=(users)=>{
           </div>
 
           <div >
-              <label className="col-4 col-form-label" for ="profile-email">Description</label>
+              <label className="col-8 col-form-label" for ="profile-email">Description</label>
               <Input
               className="form-control"
               value={this.state.currentUser.description}
@@ -339,6 +449,9 @@ renderUser=(users)=>{
           </div>
           
     <button id="modifChange" className="btn btn-primary">Changer ses modifs</button>
+
+
+   
 
       </Form>
 
@@ -361,6 +474,10 @@ renderUser=(users)=>{
                             </svg>
                         </span>
                 </div>
+
+     
+
+
                 {this.renderUser(currentItems)}
                 <ul className="pageNumbers">
                     <li>
@@ -391,7 +508,24 @@ renderUser=(users)=>{
 
 
         </Modal>
+
         
+        <Modal open={this.state.openModalMyFriend} onClose={this.onCloseModalMyFriend}>
+        <div>
+        <h1>Les utilsateurs avec lequel tu es amis</h1> 
+        <ul class="list-group">
+        {this.state.friends.map((friend)=>(
+          <li class="list-group-item" key={friend.id}>{friend.username}</li>
+        ))}
+
+      </ul>
+          </div>
+
+
+        </Modal>
+        
+      </div>
+      </div>
       </div>
     );
   }

@@ -7,10 +7,37 @@
   
     
 }
+
 #Partit_haute{
     display: flex;
     justify-content: space-around;
+    margin: 50px;
 }
+.infoPersonn{
+    color:blanchedalmond;
+}
+#infoPersonnTop{
+    text-align: right;
+}
+
+#secondInfoProfil{
+    display:block;
+}
+#troisiemeInfoProfil{
+    display:block;
+}
+.centresInteret,.description,.centresInteretTitle,.descriptionTitle{
+    color:blanchedalmond;
+    float: left;
+}
+.centresInteretTitle,.descriptionTitle{
+    font-weight: bold;
+}
+#buttonProfil{
+    display: flex;
+    flex-wrap: wrap;
+}
+
 
 
 
@@ -29,5 +56,10 @@
 #seeProfil{
     width: 100px;
     float:right;
+}
+
+#reusltatMatchig{
+    border: 1px solid black;
+    width:497px;
 }
 

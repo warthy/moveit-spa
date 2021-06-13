@@ -12,7 +12,7 @@ import ActivitieService from "./service/activities.service";
 import Noty from 'noty';  
 import "../node_modules/noty/lib/noty.css";  
 import "../node_modules/noty/lib/themes/mint.css"; 
-
+import AlgoliaPlaces from 'algolia-places-react';
 
 
 
@@ -70,8 +70,9 @@ export default class AddActivities extends Component {
     }
 
     onChangeLocation(e){
+        console.log(e.suggestion.name)
         this.setState({
-            location:e.target.value
+            location:e.suggestion.name
         });
     }
 
@@ -207,21 +208,34 @@ export default class AddActivities extends Component {
         </select>
        
         </div>
- 
+     
 
 
-  
         <div class="form-group col-md-4">
         <label for="firstname">Lieu</label>
-        <Input 
-        type="text" 
-        name="firstname" 
-        class="form-control"
-        value={this.state.location}
-        onChange={this.onChangeLocation}
-        id="firstname" />
-    </div>
-</div>
+        <AlgoliaPlaces
+      placeholder="address"
+      name="lieu" 
+      class="form-control"
+     
+      id="lieu"
+     
+      options={{
+       
+        language: 'fr',
+        countries: ['fr'],
+        type: 'city',
+      }}
+      onChange={this.onChangeLocation} 
+     
+
+      
+      >
+
+
+      </AlgoliaPlaces>
+        </div>
+        </div>
 
 <div class="form-row" className="test">
 <div class="form-group col-md-4">

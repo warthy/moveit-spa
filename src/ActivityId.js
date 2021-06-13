@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import axios from "axios";
+import './ActivityId.css'
+import Header from "./Header.js";
 
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -9,6 +11,8 @@ export default class ActivityId extends Component {
 
         this.state={
             activity:[],
+            username:"",
+            participants:[]
         };
     }
 
@@ -27,19 +31,63 @@ export default class ActivityId extends Component {
 
     const {data}= await response;
     this.setState({activity: data})
-    console.log(this.state.activity.author.username)
+    this.setState({
+        username:this.state.activity.author.username
+    })
+    this.setState({
+        participants:this.state.activity.participants
+    })
+    console.log(this.state.participants)
+  
+ 
+  
 
     }
   
   
 
     render() {
-        const {activity}=this.state;
+        const {activity, username, participants}=this.state;
+        let Nombresparticipants;
+        if(participants.length===0){
+            Nombresparticipants="Pas de particpants"
+        } else{
+        Nombresparticipants=
+        <ul>
+                {participants.map(participant=>(
+                    <li clasx="list-group" key={participant.id}>{participant.username}</li>
+                ))}
+            </ul>
+      
+        
+        
+           
+    }
+    let location;  
+    if(activity.location==="Nancy"){
+        location =
+        <div  id="map-container-google-2" class="z-depth-1-half map-container" >
+        <iframe src="https://maps.google.com/maps?q=nancy&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+          allowfullscreen></iframe>
+          </div>
+    }else if(activity.location==="Champigneulles"){
+        location = 
+        <div  id="map-container-google-2" class="z-depth-1-half map-container" >
+        <iframe src="https://maps.google.com/maps?q=champigneulles&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+          allowfullscreen></iframe>
+        </div>
+    }else {
+        location  = 
+        <div  id="map-container-google-2" class="z-depth-1-half map-container" >
+        <iframe src="https://maps.google.com/maps?q=paris&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0"
+          allowfullscreen></iframe>
+      </div>
+    }
 
     
     return (
         <div>
-
+             <Header />
             <table className="table">
                 <thead className="thead-dark">
                     <tr>
@@ -51,32 +99,43 @@ export default class ActivityId extends Component {
                 <tbody>
                     <tr>
                         <th scope="row">Author</th>
-                        <td>{activity.id}</td>
+                        <td>{username}</td>
                     </tr>
 
                     <tr>
                         <th scope="row">Name</th>
-                        <td>{this.state.activity.name}</td>
+                        <td>{activity.name}</td>
                     </tr>
 
                     <tr>
                         <th scope="row">Lieu</th>
-                        <td>{this.state.activity.location}</td>
+                        <td>{activity.location}</td>
                     </tr>
 
                     <tr>
                         <th scope="row">Date</th>
-                        <td>{this.state.activity.start}</td>
+                        <td>{activity.start}</td>
                     </tr>
 
                     <tr>
                         <th scope="row">Description</th>
-                        <td>{this.state.activity.description}</td>
+                        <td>{activity.description}</td>
                     </tr>
-                </tbody>
+                    <tr>
+                    <th scope="row">Participant(s)</th>
+                     <td>  {Nombresparticipants}</td>
+                    </tr>
+                    <tr>
+                   
+                    </tr>
+                
 
+                </tbody>
+              
             </table>
-            <div id="mapid"></div>
+
+            {location}
+            
 
            
         </div>

@@ -13,6 +13,7 @@ import "../node_modules/noty/lib/themes/mint.css";
 
 const API_URL = "http://localhost:8080/activity/";
 const user = JSON.parse(localStorage.getItem('user'));
+var test=[];
 const pages=[];
 export default class HomeLogged extends Component {
 
@@ -22,6 +23,7 @@ export default class HomeLogged extends Component {
 
         this.state={
             activities:[],
+            currentUser:[],
             activity_id:"",
             currentPage:1,
             itemsPerPage:2,
@@ -36,10 +38,27 @@ export default class HomeLogged extends Component {
     }
 
     componentDidMount() {
-
+        this.getCurrentUser();
         this.getAllActivities();
         this.getActivity();
+        
       
+    }
+
+    async getCurrentUser() {
+     
+        const response = axios.get("http://localhost:8080/user/me", {headers:{
+            Authorization: `Bearer  ${user}`,
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        },
+    })
+
+    const  {data} = await response;
+    this.setState({
+        currentUser:data
+    });
     }
 
     async getActivity(){
@@ -96,8 +115,18 @@ export default class HomeLogged extends Component {
     })
 
     const {data} = await response;
-    this.setState({activities: data})
-    console.log(data)
+    
+    
+    for (var i=0; i<data.length; i++){
+        if(this.state.currentUser.id !== data[i].author.id){
+            console.log(this.state.currentUser.id)
+            console.log(data[i])
+            test.push(data[i])
+                this.setState({activities: test})
+                console.log(this.state.activities)
+
+        }
+    }
     
     }
 
@@ -108,7 +137,7 @@ export default class HomeLogged extends Component {
     }
 
      renderPagesNumbers = pages.map((number) =>{
-         alert("yo")
+        
         if(number<this.state.maxPageNumberLimit +1 && number > this.state.minPageNumberLimit){
             return (
                 <li
@@ -209,7 +238,7 @@ export default class HomeLogged extends Component {
             
             <div className="HomeLogged">
                 <Header />
-                <h1>Trouvez une activités</h1>
+                <h1>Trouvez une activité</h1>
 
                <a className="lien" href="/addActivities"> <svg id="plus" xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>

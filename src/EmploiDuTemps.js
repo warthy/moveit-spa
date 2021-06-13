@@ -41,8 +41,8 @@ export default class EmploiDuTemps extends Component {
        for( var k=0; k<this.state.activities.length;k++){
             if(this.state.date.toLocaleDateString() === this.state.dateActivity[k]){
                 this.setState({displayActivity:true})
-                console.log(this.state.displayActivity)
-                alert("yo")
+                console.log(this.state.dateActivity[0])
+              
         }else if(this.state.date.toLocaleDateString() !== this.state.dateActivity[k]){
             this.setState({displayActivity:false})
         }
@@ -84,12 +84,12 @@ export default class EmploiDuTemps extends Component {
    
     for(var i=0; i<data.length; i++) {
      for(var j=0; j<data[i].participants.length; j++) {
-  
+        console.log(data[i])
+        test.push(data[i])
 
          if(data[i].participants[j].id===this.state.currentUser.id){
            
-            console.log(data[i])
-            test.push(data[i])
+     
             this.setState({activities: test})
             var date1 =data[i].start;
             var date5 = date1.toLocaleString()
@@ -113,12 +113,12 @@ export default class EmploiDuTemps extends Component {
    
      
         
-    
+     console.log(this.state.activities);
         
         
     }
 
-    console.log(this.state.activities);
+  
 
    
    
@@ -132,7 +132,7 @@ export default class EmploiDuTemps extends Component {
         if(this.state.displayActivity===true){
             test=   <ul >
             {activities.map(activity=>(
-            <li key={activity.id}>{activity.name} le {activity.start.split('T00:00:00.000+00:00')} <hr></hr>  </li>
+            <li key={activity.id}>{activity.name} le {activity.startsplit('T00:00:00.000+00:00')} <hr></hr>  </li>
             ))}
         </ul>
 

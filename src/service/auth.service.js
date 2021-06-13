@@ -1,5 +1,7 @@
 import axios from "axios";
 
+
+
 const API_URL = "http://localhost:8080/s/";
 const API_URL2 = "http://localhost:8080/user/";
 const user = JSON.parse(localStorage.getItem('user'));
@@ -27,7 +29,7 @@ class AuthService {
     }
     
 
-    register(username, lastName, firstName, description, email, password,){
+    register(username, lastName, firstName, description, email, password,interests){
         return axios.post(API_URL + "register",{
                 username,
                 lastName,
@@ -35,13 +37,15 @@ class AuthService {
                 description,
                 email,
                 password,
+                interests,
+              
 
         });
     }
 
     getCurrentUser(){
         
-  
+      
         const user = JSON.parse(localStorage.getItem('user'));
         
         
@@ -74,6 +78,26 @@ class AuthService {
             data:{
                username,
                description
+            },
+
+            headers:{
+                Authorization: `Bearer  ${user}`,
+                'Content-Type': 'application/json;charset=UTF-8',
+                'Access-Control-Allow-Origin' : '*',
+                'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            }
+        })
+    }
+
+    mathEmploiDutemps(users,minimumDuration,from,to){
+        return axios({
+            method: 'POST',
+            url:"http://localhost:8080/planning/intersection",
+            data:{
+                users,
+                minimumDuration,
+                from,
+                to
             },
 
             headers:{

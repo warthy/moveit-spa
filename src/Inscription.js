@@ -18,6 +18,8 @@ import Noty from 'noty';
 import "../node_modules/noty/lib/noty.css";  
 import "../node_modules/noty/lib/themes/mint.css"; 
 
+
+
 const user = JSON.parse(localStorage.getItem('user'));
 
 const required = value =>{
@@ -90,6 +92,7 @@ export default class Inscription extends Component {
             this.onChangeOthers=this.onChangeOthers.bind(this);
 
             this.state={
+             incidents:[],
               interest:[],
                 username:"",
                 lastName:"",
@@ -106,28 +109,45 @@ export default class Inscription extends Component {
                 sports:"",
                 arts:"",
                 others:"",
+                sports2:"",
+                arts2:"",
+                others2:"",
+                interests:[],
                 successful:false,
                 message:""
             };
         }
 
-        componentDidMount(){
+         componentDidMount(){
+         this.getMap();
           this.getAllInterests();
         }
 
         async getAllInterests(){
-          const response = axios.get("http://localhost:8080/interests", {headers:{
-            
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Access-Control-Allow-Origin' : '*',
-            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
-          },
-        })
+          const response = axios.get("http://localhost:8080/interest")
 
-        const {data} = await response;
-        this.setState({interests:data})
-          console.log(this.state.interests)
+          const {data} = await response;
+          this.setState({interest:data})
+            console.log(this.state.interest)
+          
         }
+
+        async getMap() {
+          const res = await axios.get('https://data.sfgov.org/resource/wr8u-xric.json', {
+            params:{
+              "$limit":500,
+              "$$app_token":
+              "aWiWtw4ujnJ3kwi5bBAIQXJXd"
+
+
+            }
+          })
+          const incidents =  res.data;
+          this.setState({incidents: incidents})
+        }
+
+    
+        
 
         onChangeUsername(e) {
             this.setState({
@@ -184,9 +204,13 @@ export default class Inscription extends Component {
           }
 
           onChangeSports(e) {
+         
             this.setState({
               sports: e.target.value
             });
+              
+           
+           
           }
 
           onChangeArts(e) {
@@ -196,13 +220,59 @@ export default class Inscription extends Component {
           }
 
           onChangeOthers(e){
+
+         
+
+
+
             this.setState({
               others: e.target.value
             });
+
+           
+
+           
           }
 
-          handleRegister(e){
+         
 
+
+
+
+
+
+          handleRegister(e){
+          for(var i = 0; i<this.state.interest.length; i++){
+           if(this.state.interest[i].name === this.state.sports){
+         
+             this.state.interests.push(this.state.interest[i].id)
+           }
+          }
+
+          for(var j = 0; j<this.state.interest.length; j++){
+            if(this.state.interest[j].name === this.state.others){
+              console.log(this.state.interest[j].id)
+             
+              this.state.interests.push(this.state.interest[j].id)
+            }
+           }
+
+           for(var k = 0; k<this.state.interest.length; k++){
+            if(this.state.interest[k].name === this.state.arts){
+             
+             
+              this.state.interests.push(this.state.interest[k].id)
+            }
+           }
+
+         
+
+
+       
+           console.log(this.state.interests)
+
+
+         
           
             
            
@@ -215,6 +285,7 @@ export default class Inscription extends Component {
 
               this.form.validateAll();
               console.log(this.form.validateAll());
+            
 
            
                   AuthService.register(
@@ -224,6 +295,8 @@ export default class Inscription extends Component {
                       this.state.description,
                       this.state.email,
                       this.state.password,
+                      this.state.interests,
+                   
                      
                       
                       this.state.emailConfirmation,
@@ -270,6 +343,7 @@ export default class Inscription extends Component {
 
 
     render(){
+    
     return(
         <div className="Inscription">
               <Link to="/">
@@ -501,6 +575,7 @@ export default class Inscription extends Component {
           
           
       </Form>
+                  
 
         </div>
     )
