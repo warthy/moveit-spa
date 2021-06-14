@@ -40,6 +40,16 @@
 
 
 
+#interestUser{
+    display: flex;
+    flex-direction:row;
+    float:left;
+}
+#interestUser li{
+    margin-right: 40px;
+}
+
+
 
 #photoProfil{
     width:100px;
@@ -61,5 +71,10 @@
 #reusltatMatchig{
     border: 1px solid black;
     width:497px;
+}
+
+#seeActivitie{
+    color: white;
+    font-size:15px;
 }
 

@@ -26,6 +26,7 @@ export default class Profil extends Component {
     
 
     this.state = {
+      interestUser:[],
       showMatch:false,
       matching:[],
       currentUser: [],
@@ -54,7 +55,8 @@ export default class Profil extends Component {
     this.getData();
     this.getAllUser();
     this.getFriends();
-    this.matchtemps()
+    this.matchtemps();
+    this.getInterest();
   }
 
 
@@ -288,6 +290,25 @@ onCloseModalMyFriend=()=>{
     this.setState({ users: data });
   }
 
+  async getInterest() {
+    const response = axios.get("http://localhost:8080/interest/me",{headers:{
+      Authorization: `Bearer  ${user}`,
+      "Content-Type": "application/json;charset=UTF-8",
+      "Access-Control-Allow-Origin":"*",
+      "Access-Control-Allow-Methods":"GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    },
+  });
+
+  const {data} = await response;
+  this.setState({
+    interestUser:data
+  })
+
+  console.log(data)
+
+
+  }
+
 
   
   
@@ -296,6 +317,7 @@ onCloseModalMyFriend=()=>{
 
 
   render() {
+    console.log(this.state.interestUser)
     const { users,currentPage, itemsPerPage, maxPageNumberLimit,minPageNumberLimit } = this.state;
     let test;
    
@@ -355,9 +377,16 @@ onCloseModalMyFriend=()=>{
         <div className="p-2" id="secondInfoProfil">
         <p className="centresInteret">
         <h5 className="centresInteretTitle">Centres d'intérêt : </h5>
-            <p className="centresInteret">
-                {this.state.currentUser.intests}
-            </p>
+
+          <br></br>
+        <p className="description">
+              <ul id="interestUser">
+                {this.state.interestUser.map((interest)=>{
+                  return <li  key={interest.name}>{interest.name},</li>
+                })}
+              </ul>
+              </p>
+           
           </p>
         </div>
 
@@ -378,8 +407,7 @@ onCloseModalMyFriend=()=>{
        
 
      <div id="buttonProfil">
-     <button id="
-     " type="button" class="btn btn-dark" href="/activityUser">  <a href="/activityUser">Voir mes activités</a></button> 
+     <button type="button" class="btn btn-dark" href="/activityUser">  <a id="seeActivitie" href="/activityUser">Voir mes activités</a></button> 
         <button className="test"type="button" class="btn btn-dark" onClick={this.showModalAmis}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
   <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
   <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>

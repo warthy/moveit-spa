@@ -308,6 +308,13 @@ export default class Inscription extends Component {
                               message: response.data.message,
                               successful:true
                           });
+
+                          new Noty({
+                            type:"success",
+                            layout:"centerRight",
+                            text:"Votre compte a bien été créé",
+                            timeout:3000
+                        }).show();
                       },
                       error => {
                           const resMessage=
@@ -321,15 +328,17 @@ export default class Inscription extends Component {
                                 successful:false,
                                 message:resMessage
                             });
+
+                            new Noty({
+                              type:"danger",
+                              layout:"centerRight",
+                              text:"Veuillez remplir tous les champs",
+                              timeout:3000
+                          }).show();
                       }
                   );
 
-                  new Noty({
-                    type:"success",
-                    layout:"centerRight",
-                    text:"Votre compte a bien été créé",
-                    timeout:3000
-                }).show();
+                 
               
           }
         
@@ -373,7 +382,7 @@ export default class Inscription extends Component {
                        class="form-control"
                        value={this.state.username}
                        onChange={this.onChangeUsername}
-                       validations={[required, vusername]}
+                       required
 
                        />
                    </div>
@@ -386,7 +395,7 @@ export default class Inscription extends Component {
                     name="lastname"
                     value={this.state.lastName}
                     onChange={this.onChangeLastname}
-                    validations={[required]}
+                    required
                   />
                 </div>
                 </div>
@@ -400,7 +409,7 @@ export default class Inscription extends Component {
                     name="firstname"
                     value={this.state.firstName}
                     onChange={this.onChangeFirstname}
-                    validations={[required]}
+                    required
                   />
                 </div>
 
@@ -429,7 +438,7 @@ export default class Inscription extends Component {
                     name="email"
                     value={this.state.email}
                     onChange={this.onChangeEmail}
-                    validations={[required, email]}
+                    required
                   />
                 </div>
                
@@ -444,7 +453,7 @@ export default class Inscription extends Component {
                     name="emailConfirmation"
                     value={this.state.emailConfirmation}
                     onChange={this.onChangeEmailConfirmation}
-                    validations={[required, email]}
+                    required
                   />
                 </div>
                
@@ -463,7 +472,7 @@ export default class Inscription extends Component {
                     name="password"
                     value={this.state.password}
                     onChange={this.onChangePassword}
-                    validations={[required, vpassword]}
+                    required
                   />
                 </div>
 
@@ -475,7 +484,7 @@ export default class Inscription extends Component {
                     name="password"
                     value={this.state.passwordConfirmation}
                     onChange={this.onChangePasswordConfirmation}
-                    validations={[required, vpassword]}
+                    required
                   />
                 </div>
                 
